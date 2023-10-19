@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import AppText from "../AppText";
+import { AppText } from "../common";
 
 /**
  * @breif Display form field error message

@@ -1,17 +1,20 @@
 import React from "react";
-import { Platform, StyleSheet, TextInput, View } from "react-native";
+import { TextInput, StyleSheet, Platform } from "react-native";
 
-const AppTextInput = ({ placeholder, width = "100%", ...otherProps }) => {
-  return (
-    <TextInput placeholder={placeholder} style={styles.text} {...otherProps} />
-  );
+/**
+ * @breif Render a text input
+ * @param {String} placeholder Text input place holder
+ * @param {String} width Text input width
+ * @param {Any} otherProps Other properties
+ */
+const AppTextInput = ({ placehoder, width = "100%", ...otherProps }) => {
+  return <TextInput placeholder={placehoder} {...otherProps} />;
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
-    flex: 1,
   },
 });
 

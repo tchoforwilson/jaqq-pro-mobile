@@ -1,12 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import { View, Text, StyleSheet } from "react-native";
+import colors from "../configurations/colors";
 import { AppButton } from "../components/buttons";
 
 const WelcomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Welcome to Jaqq Pro</Text>
-      <AppButton title="Start" color="blue" />
+      <Text>Welcome to Jaqq pro</Text>
+      <AppButton title="get started" color={colors.primary} />
     </View>
   );
 };
@@ -14,9 +16,10 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 24,
   },
 });
 

@@ -1,60 +1,106 @@
-import React, { useState } from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, Text } from "react-native";
 import * as Yup from "yup";
-import AppScreen from "../components/AppScreen";
+import { AppScreen, AppText } from "../components/common";
+import colors from "../configurations/colors";
 import { FormContainer, FormField } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
-import colors from "../configurations/colors";
-import AppText from "../components/AppText";
+import { View } from "react-native";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Enter a valid email!")
-    .required("Email is required!")
-    .label("Email"),
+  telephone: Yup.string("Enter a valid phone number!")
+    .required("Phone number is required!")
+    .label("Phone number"),
   password: Yup.string()
     .required("Password is required!")
     .min(3)
     .label("Password"),
 });
 
-const LoginScreen = () => {
+const LoginScreeen = () => {
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
   return (
-    <AppScreen>
+    <AppScreen style={styles.screen}>
+      <AppText style={styles.logo}>Jaqq Pro</AppText>
+      <View style={styles.heading}>
+        <Text style={styles.heading.primary}>Login</Text>
+        <AppText style={styles.heading.secondary}>
+          Enter your phone number and password
+        </AppText>
+      </View>
       <FormContainer
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ telephone: "", password: "" }}
         validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
-        <Text style={styles.header}>Login</Text>
-        <Text style={styles.text}>Enter your email and password</Text>
-        <View>
-          <FormField
-            name="email"
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            iconType="email"
-            keyboardType="email-address"
-            placeholder="Email"
-            textContentType="emailAddress"
-          />
-        </View>
+        <FormField
+          label="Phone number"
+          name="telephone"
+          placeholder="Enter your phone number"
+          autoCapitalize="none"
+          autoCorrect={false}
+          clearButtonMode="always"
+          keyboardType="phone-pad"
+          textContentType="phone-pad"
+        />
+        <FormField
+          label="Password"
+          name="password"
+          placeholder="Enter password"
+          secureTextEntry={true}
+          autoCapitalize="none"
+          autoCorrect={false}
+          clearButtonMode="always"
+          textContentType="password"
+        />
+        <SubmitButton title="Login" />
       </FormContainer>
+      <View style={styles.signup}>
+        <AppText>Don't have an account?</AppText>
+        <AppText style={styles.signup.link}>sign up</AppText>
+      </View>
     </AppScreen>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    fontSize: 22,
-    fontWeight: "700",
+  screen: {
+    alignItems: "center",
+    width: "100%",
   },
-  text: {
-    color: colors.light,
-    fontSize: 18,
-    fontWeight: "400",
-    marginTop: 10,
+  logo: {
+    fontSize: 25,
+    fontWeight: "700",
+    marginBottom: 20,
+    textTransform: "uppercase",
+  },
+  heading: {
+    alignItems: "center",
+    textAlign: "center",
+    marginBottom: 20,
+    primary: {
+      fontSize: 25,
+      fontWeight: "700",
+    },
+    secondary: {
+      color: colors.grey_dark_3,
+      fontSize: 18,
+      fontWeight: "400",
+      marginTop: 10,
+    },
+  },
+  signup: {
+    marginTop: 30,
+    display: "flex",
+    flexDirection: "row",
+    link: {
+      color: colors.primary,
+      textTransform: "capitalize",
+      marginLeft: 5,
+    },
   },
 });
 
-export default LoginScreen;
+export default LoginScreeen;

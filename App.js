@@ -1,10 +1,8 @@
 import React from "react";
-import WelcomeScreen from "./src/screens/WelcomeScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import RegisterSCreen from "./src/screens/RegisterScreen";
+import { RegisterScreen } from "./src/screens";
 
 const App = () => {
-  return <LoginScreen />;
+  return <RegisterScreen />;
 };
 
 export default App;

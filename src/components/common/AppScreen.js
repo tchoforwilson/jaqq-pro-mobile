@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
-import colors from "../configurations/colors";
+import colors from "../../configurations/colors";
 
 const AppScreen = ({ children, style }) => {
   return (
