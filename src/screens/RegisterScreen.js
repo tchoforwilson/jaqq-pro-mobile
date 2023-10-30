@@ -2,9 +2,14 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 import { AppScreen, AppText } from "../components/common";
-import { FormContainer, FormField } from "../components/forms";
+import {
+  FormContainer,
+  FormField,
+  FormPasswordField,
+} from "../components/forms";
 import { SubmitButton } from "../components/buttons";
-import colors from "../configurations/colors";
+import defaultStyles from "../configurations/styles";
+import routes from "../navigations/routes";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -25,17 +30,17 @@ const validationSchema = Yup.object().shape({
     .label("Confirm password"),
 });
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const handleSubmit = (data) => {
     console.log(data);
   };
   return (
     <AppScreen style={styles.screen}>
       <AppText style={styles.logo}>Jaqq Pro</AppText>
-      <View style={styles.heading}>
-        <Text style={styles.heading.primary}>Sign up</Text>
-        <AppText style={styles.heading.secondary}>
-          Enter your information
+      <View style={defaultStyles.heading}>
+        <Text style={defaultStyles.heading.primary}>Sign up</Text>
+        <AppText style={defaultStyles.heading.secondary}>
+          Enter your credentials tp continue
         </AppText>
       </View>
       <FormContainer
@@ -50,8 +55,9 @@ const RegisterScreen = () => {
         onSubmit={handleSubmit}
       >
         <FormField
+          label="First name"
           name="firstName"
-          placeholder="First name"
+          iconType="account"
           autoCapitalize="none"
           autoCorrect={false}
           clearButtonMode="always"
@@ -59,8 +65,9 @@ const RegisterScreen = () => {
           textContentType="name"
         />
         <FormField
+          label="Last name"
           name="lastName"
-          placeholder="Last name"
+          iconType="account"
           autoCapitalize="none"
           autoCorrect={false}
           clearButtonMode="always"
@@ -68,37 +75,26 @@ const RegisterScreen = () => {
           textContentType="name"
         />
         <FormField
+          label="Email"
           name="email"
-          placeholder="Email address"
-          autoCapitalize="none"
+          iconType="email"
           autoCorrect={false}
           clearButtonMode="always"
           keyboardType="email-address"
           textContentType="emailAddress"
         />
-        <FormField
-          name="password"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
-          placeholder="Password"
-          textContentType="password"
-        />
-        <FormField
-          name="passwordConfirm"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
-          placeholder="Confirm password"
-          textContentType="password"
-        />
-        <SubmitButton title="sign up" color={colors.primary} />
+        <FormPasswordField label="Password" name="password" />
+        <FormPasswordField label="Confirm Password" name="passwordConfirm" />
+        <SubmitButton title="sign up" />
       </FormContainer>
       <View style={styles.login}>
         <AppText>Already have an account?</AppText>
-        <AppText style={styles.login.link}>Login</AppText>
+        <AppText
+          style={styles.login.link}
+          onPress={() => navigation.navigate(routes.LOGIN)}
+        >
+          Login
+        </AppText>
       </View>
     </AppScreen>
   );
@@ -115,27 +111,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textTransform: "uppercase",
   },
-  heading: {
-    alignItems: "center",
-    textAlign: "center",
-    marginBottom: 20,
-    primary: {
-      fontSize: 25,
-      fontWeight: "700",
-    },
-    secondary: {
-      color: colors.grey_dark_3,
-      fontSize: 18,
-      fontWeight: "400",
-      marginTop: 10,
-    },
-  },
+
   login: {
     marginTop: 30,
     display: "flex",
     flexDirection: "row",
     link: {
-      color: colors.primary,
+      color: defaultStyles.colors.primary,
       textTransform: "capitalize",
       marginLeft: 5,
     },
