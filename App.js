@@ -1,8 +1,14 @@
 import React from "react";
-import { RegisterScreen } from "./src/screens";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigator from "./src/navigations/AuthNavigator";
+import NavigationTheme from "./src/navigations/NavigationTheme";
 
 const App = () => {
-  return <RegisterScreen />;
+  return (
+    <NavigationContainer theme={NavigationTheme}>
+      <AuthNavigator />
+    </NavigationContainer>
+  );
 };
 
 export default App;
