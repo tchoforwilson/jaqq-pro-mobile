@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
 import FormField from "./FormField";
@@ -12,14 +12,17 @@ import FormField from "./FormField";
 const FormPasswordField = ({ label, name }) => {
   const [show, setShow] = useState(false);
 
-  const togglePassword = () => setShow(!show);
+  const togglePassword = () => {
+    setShow(!show);
+    console.log(show);
+  };
 
   return (
     <FormField
       label={label}
       name={name}
       iconType="lock"
-      isPassword={true}
+      isPassword={!show}
       togglePassword={show}
       customShowPasswordComponent={
         <TextInput.Icon onPress={togglePassword} icon="eye-off" />
@@ -31,6 +34,7 @@ const FormPasswordField = ({ label, name }) => {
       autoCorrect={false}
       clearButtonMode="always"
       textContentType="password"
+      secureTextEntry
       showPasswordContainerStyles={styles.password}
     />
   );
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
   password: {
     position: "absolute",
     right: 30,
-    top: 12,
+    top: 18,
   },
 });
 
