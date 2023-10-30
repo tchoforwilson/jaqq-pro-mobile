@@ -11,10 +11,10 @@ import colors from "../../configurations/colors";
  * @param {Any} otherProps Other properties
  * @returns {JSX}
  */
-const AppButton = ({ title, color, onPress, ...otherProps }) => {
+const AppButton = ({ title, onPress, color = "primary", ...otherProps }) => {
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor: color }]}
+      style={[styles.button, { backgroundColor: colors[color] }]}
       onPress={onPress}
       {...otherProps}
     >
@@ -24,7 +24,7 @@ const AppButton = ({ title, color, onPress, ...otherProps }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  button: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
