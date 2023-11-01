@@ -13,16 +13,19 @@ export default {
     width: "100%",
     alignItems: "flex-start",
     textAlign: "center",
-    marginBottom: 30,
     primary: {
-      fontSize: 25,
+      fontSize: 22,
       fontWeight: "700",
+      textTransform: "capitalize",
     },
     secondary: {
       color: colors.grey_dark_3,
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: "400",
       marginTop: 10,
     },
+  },
+  form: {
+    marginTop: 25,
   },
 };
