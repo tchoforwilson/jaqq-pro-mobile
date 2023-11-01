@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 30,
     marginTop: 15,
   },
   text: {
     color: colors.white,
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     fontWeight: "600",
   },
 });
