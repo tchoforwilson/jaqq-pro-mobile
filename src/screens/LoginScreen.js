@@ -35,24 +35,26 @@ const LoginScreeen = ({ navigation }) => {
           Enter your email and password
         </AppText>
       </View>
-      <FormContainer
-        initialValues={{ email: "", password: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <FormField
-          label="Email"
-          name="email"
-          iconType="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
-        <FormPasswordField label="Password" name="password" />
-        <SubmitButton title="Login" />
-      </FormContainer>
+      <View style={defaultStyles.form}>
+        <FormContainer
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <FormField
+            label="Email"
+            name="email"
+            iconType="email"
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="always"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+          />
+          <FormPasswordField label="Password" name="password" />
+          <SubmitButton title="Login" />
+        </FormContainer>
+      </View>
       <View style={styles.signup}>
         <AppText>Don't have an account?</AppText>
         <AppText

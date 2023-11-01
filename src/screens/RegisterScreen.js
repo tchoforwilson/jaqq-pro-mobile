@@ -43,50 +43,52 @@ const RegisterScreen = ({ navigation }) => {
           Enter your credentials tp continue
         </AppText>
       </View>
-      <FormContainer
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          passwordConfirm: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <FormField
-          label="First name"
-          name="firstName"
-          iconType="account"
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
-          keyboardType="default"
-          textContentType="name"
-        />
-        <FormField
-          label="Last name"
-          name="lastName"
-          iconType="account"
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="always"
-          keyboardType="default"
-          textContentType="name"
-        />
-        <FormField
-          label="Email"
-          name="email"
-          iconType="email"
-          autoCorrect={false}
-          clearButtonMode="always"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
-        <FormPasswordField label="Password" name="password" />
-        <FormPasswordField label="Confirm Password" name="passwordConfirm" />
-        <SubmitButton title="sign up" />
-      </FormContainer>
+      <View style={defaultStyles.form}>
+        <FormContainer
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            passwordConfirm: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <FormField
+            label="First name"
+            name="firstName"
+            iconType="account"
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="always"
+            keyboardType="default"
+            textContentType="name"
+          />
+          <FormField
+            label="Last name"
+            name="lastName"
+            iconType="account"
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="always"
+            keyboardType="default"
+            textContentType="name"
+          />
+          <FormField
+            label="Email"
+            name="email"
+            iconType="email"
+            autoCorrect={false}
+            clearButtonMode="always"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+          />
+          <FormPasswordField label="Password" name="password" />
+          <FormPasswordField label="Confirm Password" name="passwordConfirm" />
+          <SubmitButton title="sign up" />
+        </FormContainer>
+      </View>
       <View style={styles.login}>
         <AppText>Already have an account?</AppText>
         <AppText
