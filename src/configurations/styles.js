@@ -14,7 +14,7 @@ export default {
     alignItems: "flex-start",
     textAlign: "center",
     primary: {
-      fontSize: 22,
+      fontSize: 25,
       fontWeight: "700",
       textTransform: "capitalize",
     },
@@ -27,5 +27,6 @@ export default {
   },
   form: {
     marginTop: 25,
+    width: "100%",
   },
 };
