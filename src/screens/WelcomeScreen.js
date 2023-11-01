@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     objectFit: "cover",
-    resize: "both",
+    resizeMode: "both",
     objectPosition: "center",
   },
   logo: {
