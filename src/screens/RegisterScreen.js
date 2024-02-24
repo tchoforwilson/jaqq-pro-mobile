@@ -40,7 +40,7 @@ const RegisterScreen = ({ navigation }) => {
       <View style={defaultStyles.heading}>
         <Text style={defaultStyles.heading.primary}>Sign up</Text>
         <AppText style={defaultStyles.heading.secondary}>
-          Enter your credentials tp continue
+          Enter your credentials to continue
         </AppText>
       </View>
       <View style={defaultStyles.form}>
