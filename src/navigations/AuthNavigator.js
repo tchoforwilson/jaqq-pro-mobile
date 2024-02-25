@@ -1,10 +1,15 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import WelcomeScreen from "../screens/WelcomeScreen";
-import LoginScreen from "../screens/LoginScreen";
-import RegisterScreen from "../screens/RegisterScreen";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createNativeStackNavigator();
+import {
+  AddPhoneNumberScreen,
+  ConfirmPhoneNumberScreen,
+  LoginScreen,
+  RegisterScreen,
+  WelcomeScreen,
+} from "../screens";
+
+const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
   return (
@@ -16,6 +21,11 @@ const AuthNavigator = () => {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Add Phone Number" component={AddPhoneNumberScreen} />
+      <Stack.Screen
+        name="Confirm Phone Number"
+        component={ConfirmPhoneNumberScreen}
+      />
     </Stack.Navigator>
   );
 };
