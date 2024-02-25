@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
+
 import { AppText } from "../components/common";
-import routes from "../navigations/routes";
 import colors from "../configurations/colors";
 import { AppButton } from "../components/buttons";
 
@@ -9,22 +9,20 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
       style={styles.background}
-      source={require("../../assets/background.jpg")}
+      source={require("../assets/background.jpg")}
     >
       <View style={styles.logoContainer}>
         <Text style={styles.logo}>Japp Pro</Text>
-        <AppText style={styles.tagLine}>
+        <AppText style={styles.tagline}>
           Find the perfect place for work
         </AppText>
       </View>
       <View style={styles.buttonsContainer}>
-        <AppButton
-          title="Login"
-          onPress={() => navigation.navigate(routes.LOGIN)}
-        />
+        <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
         <AppButton
           title="Register"
-          onPress={() => navigation.navigate(routes.REGISTER)}
+          color="secondary"
+          onPress={() => navigation.navigate("Register")}
         />
       </View>
     </ImageBackground>
@@ -40,22 +38,24 @@ const styles = StyleSheet.create({
     resizeMode: "both",
     objectPosition: "center",
   },
+  buttonsContainer: {
+    padding: 20,
+    width: "100%",
+  },
   logo: {
     fontSize: 25,
     fontWeight: "700",
-    color: colors.green,
-  },
-  tagLine: {
-    color: colors.grey_dark_1,
+    color: colors.secondary,
   },
   logoContainer: {
     position: "absolute",
     top: 70,
     alignItems: "center",
   },
-  buttonsContainer: {
-    padding: 10,
-    width: "100%",
+  tagline: {
+    fontSize: 25,
+    fontWeight: "600",
+    paddingVertical: 20,
   },
 });
 
