@@ -26,7 +26,7 @@ export default {
     },
   },
   form: {
-    marginTop: 25,
+    marginVertical: 20,
     width: "100%",
   },
 };
