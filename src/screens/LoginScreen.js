@@ -9,7 +9,6 @@ import {
 } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
 import defaultStyles from "../configurations/styles";
-import routes from "../navigations/routes";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -59,7 +58,7 @@ const LoginScreeen = ({ navigation }) => {
         <AppText>Don't have an account?</AppText>
         <AppText
           style={styles.signup.link}
-          onPress={() => navigation.navigate(routes.REGISTER)}
+          onPress={() => navigation.navigate("Register")}
         >
           sign up
         </AppText>
