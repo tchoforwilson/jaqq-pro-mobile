@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
+
 import { AppText } from "../common";
 import colors from "../../configurations/colors";
 
@@ -25,17 +26,19 @@ const AppButton = ({ title, onPress, color = "primary", ...otherProps }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: "100%",
-    alignItems: "center",
+    backgroundColor: colors.primary,
+    borderRadius: 25,
     justifyContent: "center",
+    alignItems: "center",
     padding: 15,
-    borderRadius: 30,
-    marginTop: 15,
+    width: "100%",
+    marginVertical: 10,
   },
   text: {
     color: colors.white,
-    textTransform: "capitalize",
-    fontWeight: "600",
+    fontSize: 18,
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
 });
 
