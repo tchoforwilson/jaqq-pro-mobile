@@ -1,5 +1,9 @@
 export default Object.freeze({
-  TASK_DETAILS: "TaskDetails",
   LOGIN: "Login",
   REGISTER: "Register",
+  ADD_PHONENUMBER: "AddPhoneNumber",
+  CONFIRM_PHONENUMBER: "ConfirmPhoneNumber",
+  SERVICES: "Services",
+  SERVICES_DETAILS: "ServiceDetails",
+  ACCOUNT: "Account",
 });
