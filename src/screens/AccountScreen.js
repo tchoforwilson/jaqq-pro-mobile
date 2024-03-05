@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 import { AppScreen } from "../components/common";
-import { routes } from "../navigations";
+import routes from "../routes";
 import colors from "../configurations/colors";
 import { ListItem } from "../components/lists";
 import Icon from "../components/Icon";
