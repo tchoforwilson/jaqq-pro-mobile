@@ -11,9 +11,9 @@ import {
 
 const Stack = createStackNavigator();
 
-const AccountNavigation = () => {
+const AccountNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator>
       <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Services" component={ServicesScreen} />
@@ -23,4 +23,4 @@ const AccountNavigation = () => {
   );
 };
 
-export default AccountNavigation;
+export default AccountNavigator;
