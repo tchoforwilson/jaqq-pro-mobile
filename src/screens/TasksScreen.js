@@ -4,7 +4,7 @@ import { StyleSheet, FlatList } from "react-native";
 import { AppScreen } from "../components/common";
 import colors from "../configurations/colors";
 import { Card } from "../components/cards";
-import { routes } from "../navigations";
+import routes from "../routes";
 
 const tasks = [
   {
