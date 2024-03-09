@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import * as Yup from "yup";
+import PropTypes from "prop-types";
 import { AppScreen, AppText } from "../components/common";
 import {
   FormContainer,
@@ -104,6 +105,12 @@ const RegisterScreen = ({ navigation }) => {
       </ScrollView>
     </AppScreen>
   );
+};
+
+RegisterScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({
