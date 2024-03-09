@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import * as Yup from "yup";
 import { AppScreen, AppText } from "../components/common";
 import {
@@ -35,68 +35,73 @@ const RegisterScreen = ({ navigation }) => {
   };
   return (
     <AppScreen style={styles.screen}>
-      <AppText style={styles.logo}>Jaqq Pro</AppText>
-      <View style={defaultStyles.heading}>
-        <Text style={defaultStyles.heading.primary}>Sign up</Text>
-        <AppText style={defaultStyles.heading.secondary}>
-          Enter your credentials to continue
-        </AppText>
-      </View>
-      <View style={defaultStyles.form}>
-        <FormContainer
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            passwordConfirm: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <FormField
-            label="First name"
-            name="firstName"
-            iconType="account"
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            keyboardType="default"
-            textContentType="name"
-          />
-          <FormField
-            label="Last name"
-            name="lastName"
-            iconType="account"
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            keyboardType="default"
-            textContentType="name"
-          />
-          <FormField
-            label="Email"
-            name="email"
-            iconType="email"
-            autoCorrect={false}
-            clearButtonMode="always"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-          />
-          <FormPasswordField label="Password" name="password" />
-          <FormPasswordField label="Confirm Password" name="passwordConfirm" />
-          <SubmitButton title="sign up" />
-        </FormContainer>
-      </View>
-      <View style={styles.login}>
-        <AppText>Already have an account?</AppText>
-        <AppText
-          style={styles.login.link}
-          onPress={() => navigation.navigate("Login")}
-        >
-          Login
-        </AppText>
-      </View>
+      <ScrollView style={styles.scrollView}>
+        <AppText style={styles.logo}>Jaqq Pro</AppText>
+        <View style={defaultStyles.heading}>
+          <Text style={defaultStyles.heading.primary}>Sign up</Text>
+          <AppText style={defaultStyles.heading.secondary}>
+            Enter your credentials to continue
+          </AppText>
+        </View>
+        <View style={defaultStyles.form}>
+          <FormContainer
+            initialValues={{
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+              passwordConfirm: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <FormField
+              label="First name"
+              name="firstName"
+              iconType="account"
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="always"
+              keyboardType="default"
+              textContentType="name"
+            />
+            <FormField
+              label="Last name"
+              name="lastName"
+              iconType="account"
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="always"
+              keyboardType="default"
+              textContentType="name"
+            />
+            <FormField
+              label="Email"
+              name="email"
+              iconType="email"
+              autoCorrect={false}
+              clearButtonMode="always"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+            />
+            <FormPasswordField label="Password" name="password" />
+            <FormPasswordField
+              label="Confirm Password"
+              name="passwordConfirm"
+            />
+            <SubmitButton title="sign up" />
+          </FormContainer>
+        </View>
+        <View style={styles.login}>
+          <AppText>Already have an account?</AppText>
+          <AppText
+            style={styles.login.link}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Login
+          </AppText>
+        </View>
+      </ScrollView>
     </AppScreen>
   );
 };
@@ -122,6 +127,9 @@ const styles = StyleSheet.create({
       textTransform: "capitalize",
       marginLeft: 5,
     },
+  },
+  scrollView: {
+    flex: 1,
   },
 });
 
