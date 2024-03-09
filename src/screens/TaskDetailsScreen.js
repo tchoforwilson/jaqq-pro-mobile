@@ -4,8 +4,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AppScreen, AppText } from "../components/common";
 import colors from "../configurations/colors";
+import { ListItem } from "../components/lists";
 
-const ServiceDetailsScreen = ({ route }) => {
+const TaskDetailsScreen = ({ route }) => {
   const task = route.params;
   return (
     <AppScreen>
@@ -16,20 +17,30 @@ const ServiceDetailsScreen = ({ route }) => {
           <MaterialCommunityIcons
             name="map-marker"
             size={25}
-            color={colors.secondary}
+            color={colors.white}
             style={styles.icon}
           />
           <AppText style={styles.location}>{task.location}</AppText>
         </View>
-        <View style={styles.userContainer}></View>
+        <View style={styles.userContainer}>
+          <ListItem
+            title="Neba Jones Freeman"
+            image={require("../assets/profile.jpg")}
+          />
+        </View>
       </View>
     </AppScreen>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  icon: {},
+  container: {
+    backgroundColor: colors.secondary,
+    padding: 20,
+  },
+  icon: {
+    color: colors.white,
+  },
   locationContainer: {
     alignItems: "center",
     display: "flex",
@@ -42,17 +53,16 @@ const styles = StyleSheet.create({
     color: colors.grey_dark_1,
   },
   userContainer: {
-    backgroundColor: colors.secondary,
-    padding: 20,
+    marginVertical: 40,
   },
   subtitle: {
-    color: colors.secondary,
+    color: colors.white,
     fontWeight: "bold",
   },
   title: {
-    color: colors.primary,
+    color: colors.white,
     marginBottom: 7,
   },
 });
 
-export default ServiceDetailsScreen;
+export default TaskDetailsScreen;
