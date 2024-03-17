@@ -2,9 +2,10 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
-import { AppScreen, AppText } from "../components/common";
+import { AppScreen } from "../components/common";
 import { FormContainer, FormField } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
+import colors from "../configurations/colors";
 
 const validationSchema = Yup.object().shape({
   phoneCurrent: Yup.number()
@@ -63,7 +64,9 @@ const UpdatePhoneNumberScreen = () => {
 
 const styles = StyleSheet.create({
   container: {},
-  screen: {},
+  screen: {
+    backgroundColor: colors.light,
+  },
 });
 
 export default UpdatePhoneNumberScreen;

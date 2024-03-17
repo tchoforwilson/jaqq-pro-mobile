@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
+import PropTypes from "prop-types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../configurations/colors";
 
-function ImageInput({ imageUri }) {
+const ImageInput = ({ imageUri }) => {
   return (
     <View style={styles.container}>
       {!imageUri && (
@@ -16,7 +17,11 @@ function ImageInput({ imageUri }) {
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
     </View>
   );
-}
+};
+
+ImageInput.propTypes = {
+  imageUri: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -3,9 +3,10 @@ import { View, StyleSheet, Image, ScrollView } from "react-native";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppScreen } from "../components/common";
-import { FormContainer, FormField, FormGenderField } from "../components/forms";
+import { FormContainer, FormField, FormPicker } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
+import routes from "../routes";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First name required!").label("First name"),
@@ -17,12 +18,12 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string().label("Gender"),
 });
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
   const handleSubmit = (data) => {
     console.log(data);
   };
   return (
-    <AppScreen>
+    <AppScreen style={styles.screen}>
       <ScrollView style={styles.scrollView}>
         <View style={[styles.container, styles.imageContainer]}>
           <Image
@@ -30,10 +31,11 @@ const ProfileScreen = () => {
             source={require("../assets/profile.jpg")}
           />
           <MaterialCommunityIcons
-            name="camera"
-            size={40}
+            name="camera-plus"
+            size={35}
             color={colors.primary}
             style={styles.imageIcon}
+            onPress={() => navigation.navigate(routes.UPDATE_PROFILE_IMAGE)}
           />
         </View>
         <View style={styles.container}>
@@ -76,7 +78,14 @@ const ProfileScreen = () => {
               keyboardType="email-address"
               textContentType="emailAddress"
             />
-            <FormGenderField name="gender" />
+            <FormPicker
+              name="gender"
+              items={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+              ]}
+              iconType="camera"
+            />
             <SubmitButton title="Update Account" />
           </FormContainer>
         </View>
@@ -102,6 +111,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "70%",
     right: "30%",
+  },
+  screen: {
+    backgroundColor: colors.light,
   },
   scrollView: {
     flex: 1,

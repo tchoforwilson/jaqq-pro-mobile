@@ -8,6 +8,7 @@ export default Object.freeze({
   ACCOUNT: "Account",
   PROFILE: "Profile",
   UPDATE_PASSWORD: "UpdatePassword",
-  UPDATE_PHONE: "UpdatePhone",
+  UPDATE_PHONE: "UpdatePhoneNumber",
+  UPDATE_PROFILE_IMAGE: "UpdateProfileImage",
   SERVICES: "Services",
 });

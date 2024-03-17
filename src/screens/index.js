@@ -15,3 +15,5 @@ export { default as ProfileScreen } from "./ProfileScreen";
 export { default as ServicesScreen } from "./ServicesScreen";
 export { default as UpdatePasswordScreen } from "./UpdatePasswordScreen";
 export { default as UpdatePhoneNumberScreen } from "./UpdatePhoneNumberScreen";
+export { default as UpdateProfileImageScreen } from "./UpdateProfileImageScreen";
+export { default as UpdateServicesScreen } from "./UpdateServicesScreen";
