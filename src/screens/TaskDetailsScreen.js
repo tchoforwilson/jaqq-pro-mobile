@@ -1,18 +1,19 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AppScreen, AppText } from "../components/common";
 import colors from "../configurations/colors";
-import { ListItem } from "../components/lists";
 
 const TaskDetailsScreen = ({ route }) => {
   const task = route.params;
   return (
-    <AppScreen>
+    <AppScreen style={styles.screen}>
       <View style={styles.container}>
-        <AppText style={styles.title}>{task.name}</AppText>
-        <AppText style={styles.subtitle}>{task.price + " XAF"}</AppText>
+        <View style={styles.detailsContainer}>
+          <AppText style={styles.name}>{task.name}</AppText>
+          <AppText style={styles.price}>{task.price + " XAF"}</AppText>
+        </View>
         <View style={styles.locationContainer}>
           <MaterialCommunityIcons
             name="map-marker"
@@ -23,10 +24,16 @@ const TaskDetailsScreen = ({ route }) => {
           <AppText style={styles.location}>{task.location}</AppText>
         </View>
         <View style={styles.userContainer}>
-          <ListItem
-            title="Neba Jones Freeman"
-            image={require("../assets/profile.jpg")}
+          <Image
+            style={styles.userimage}
+            source={require("../assets/profile.jpg")}
           />
+          <View style={styles.userDetails}>
+            <AppText style={styles.username} numberOfLines={1}>
+              {task.user.name}
+            </AppText>
+            <AppText style={styles.userphone}>{task.user.phone}</AppText>
+          </View>
         </View>
       </View>
     </AppScreen>
@@ -34,9 +41,15 @@ const TaskDetailsScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: colors.light,
+  },
   container: {
     backgroundColor: colors.secondary,
     padding: 20,
+  },
+  detailsContainer: {
+    marginBottom: 15,
   },
   icon: {
     color: colors.white,
@@ -47,19 +60,43 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 20,
     justifyContent: "flex-start",
-    marginTop: 15,
   },
   location: {
     color: colors.grey_dark_1,
   },
   userContainer: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
     marginVertical: 40,
+    gap: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 15,
   },
-  subtitle: {
+  userimage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
+  userDetails: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  username: {
+    fontWeight: "500",
+  },
+  userphone: {
+    fontSize: 16,
+    color: colors.grey_dark_2,
+  },
+  name: {
     color: colors.white,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: 800,
   },
-  title: {
+  price: {
     color: colors.white,
     marginBottom: 7,
   },
