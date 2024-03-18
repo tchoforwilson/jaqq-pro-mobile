@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { AppScreen } from "../components/common";
 import { FormContainer, FormPasswordField } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
+import colors from "../configurations/colors";
 
 const validationSchema = Yup.object().shape({
   passwordCurrent: Yup.string()
@@ -47,7 +48,9 @@ const UpdatePasswordScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  screen: {},
+  screen: {
+    backgroundColor: colors.light,
+  },
   container: {},
 });
 
