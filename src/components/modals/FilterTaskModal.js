@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableHighlight } from "react-native";
 import * as Yup from "yup";
 
 import { AppText } from "../common";
-import { FormCheckbox, FormContainer } from "../forms";
+import { FormCheckbox, FormContainer, FormRadioButton } from "../forms";
 import AppModal from "./AppModal";
 
 const validationSchema = Yup.object().shape({
@@ -30,14 +30,18 @@ const FilterTaskModal = ({ isVisible, onClose, onSubmit }) => {
   return (
     <AppModal isVisible={isVisible} onClose={onClose}>
       <View style={styles.container}>
-        <AppText>Filter tasks</AppText>
+        <AppText style={styles.heading}>Filter tasks</AppText>
         <FormContainer
           initialValues={{ status: "none" }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {tasks.map((task) => (
-            <FormCheckbox label={task.label} name="status" value={task.value} />
+            <FormRadioButton
+              label={task.label}
+              name="status"
+              value={task.value}
+            />
           ))}
         </FormContainer>
 
@@ -56,11 +60,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 20,
+  },
+  btntext: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textTransform: "capitalize",
   },
   container: {
     borderRadius: 30,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
+  },
+  heading: {
+    fontWeight: 700,
+    marginBottom: 15,
   },
 });
 

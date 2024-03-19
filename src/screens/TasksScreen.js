@@ -88,9 +88,10 @@ const TasksScreen = ({ navigation }) => {
     <AppScreen style={styles.screen}>
       <View style={styles.header}>
         <MaterialCommunityIcons
-          name="filter"
+          name="sort"
           size={28}
           color={colors.grey_dark_1}
+          onPress={() => setModalVisible(true)}
         />
       </View>
       <View style={styles.container}>
@@ -105,6 +106,11 @@ const TasksScreen = ({ navigation }) => {
           )}
         />
       </View>
+      <FilterTaskModal
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(!modalVisible)}
+        onSubmit={handleSubmit}
+      />
     </AppScreen>
   );
 };
