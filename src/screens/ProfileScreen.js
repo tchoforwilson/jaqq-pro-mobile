@@ -84,7 +84,7 @@ const ProfileScreen = ({ navigation }) => {
                 { label: "Male", value: "male" },
                 { label: "Female", value: "female" },
               ]}
-              iconType="camera"
+              iconType="gender-male-female"
             />
             <SubmitButton title="Update Account" />
           </FormContainer>
