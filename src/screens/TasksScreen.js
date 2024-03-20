@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -8,43 +8,14 @@ import {
 import PropTypes from "prop-types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import tasksService from "../services/tasks.services";
 import { AppScreen, AppText } from "../components/common";
 import colors from "../configurations/colors";
 import routes from "../routes";
 import { FilterTaskModal } from "../components/modals";
-
-const tasks = [
-  {
-    id: 1,
-    name: "Wedding Photographer",
-    price: 30000,
-    location: "Bonapriso, douala",
-    user: {
-      name: "Jonas James Freeman",
-      phone: "655448900",
-    },
-  },
-  {
-    id: 2,
-    name: "Carpenter",
-    price: 80000,
-    location: "Ndokoti, douala",
-    user: {
-      name: "Mary Anne",
-      phone: "655411900",
-    },
-  },
-  {
-    id: 3,
-    name: "Builder",
-    price: 500000,
-    location: "Bonaberi, douala",
-    user: {
-      name: "Ricky Brown",
-      phone: "655448900",
-    },
-  },
-];
+import { AppButton } from "../components/buttons";
+import { AppActivityIndicator } from "../components/indicators";
+import { useApi } from "../hooks";
 
 const TaskItem = ({ task, onPress }) => {
   return (
@@ -79,11 +50,22 @@ TaskItem.propTypes = {
 };
 
 const TasksScreen = ({ navigation }) => {
+  const {
+    data: tasks,
+    error,
+    loading,
+    request: loadTasks,
+  } = useApi(tasksService.getAllTasks);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSubmit = (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
   return (
     <AppScreen style={styles.screen}>
       <View style={styles.header}>
@@ -94,18 +76,24 @@ const TasksScreen = ({ navigation }) => {
           onPress={() => setModalVisible(true)}
         />
       </View>
-      <View style={styles.container}>
-        <FlatList
-          data={tasks}
-          keyExtractor={(task) => task.id.toString()}
-          renderItem={({ item }) => (
-            <TaskItem
-              task={item}
-              onPress={() => navigation.navigate(routes.TASK_DETAILS, item)}
-            />
-          )}
-        />
-      </View>
+      {error && (
+        <Fragment>
+          <AppText>Couldn't retrieve the tasks.</AppText>
+          <AppButton title="Retry" onPress={loadTasks} />
+        </Fragment>
+      )}
+      <AppActivityIndicator visible={loading} />
+      <FlatList
+        data={tasks}
+        keyExtractor={(task) => task.id.toString()}
+        renderItem={({ item }) => (
+          <TaskItem
+            task={item}
+            onPress={() => navigation.navigate(routes.TASK_DETAILS, item)}
+          />
+        )}
+      />
+
       <FilterTaskModal
         isVisible={modalVisible}
         onClose={() => setModalVisible(!modalVisible)}
@@ -126,7 +114,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginBottom: 10,
   },
-  container: {},
   taskitem: {
     backgroundColor: colors.white,
     borderRadius: 10,
