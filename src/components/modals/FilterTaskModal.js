@@ -38,6 +38,7 @@ const FilterTaskModal = ({ isVisible, onClose, onSubmit }) => {
         >
           {tasks.map((task) => (
             <FormRadioButton
+              key={task.label}
               label={task.label}
               name="status"
               value={task.value}
