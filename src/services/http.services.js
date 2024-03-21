@@ -1,4 +1,5 @@
 import { create } from "apisauce";
+import { authStorage } from "../context";
 
 // Define the API
 const api = create({
@@ -6,6 +7,7 @@ const api = create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
+    Authorization: `Bearer ${authStorage.getToken()}`,
   },
 });
 
