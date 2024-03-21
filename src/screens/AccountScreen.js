@@ -6,40 +6,50 @@ import routes from "../routes";
 import colors from "../configurations/colors";
 import { ListItem } from "../components/lists";
 import Icon from "../components/Icon";
+import { useContext } from "react";
+import { AuthContext, authStorage } from "../context";
+
+const menuItems = [
+  {
+    title: "My Services",
+    icon: {
+      name: "format-list-bulleted",
+      backgroundColor: colors.primary,
+    },
+    targetScreen: routes.SERVICES,
+  },
+  {
+    title: "Change Phone Number",
+    icon: {
+      name: "phone",
+      backgroundColor: colors.secondary,
+    },
+    targetScreen: routes.UPDATE_PHONE,
+  },
+  {
+    title: "Change Password",
+    icon: {
+      name: "lock",
+      backgroundColor: colors.grey_dark_1,
+    },
+    targetScreen: routes.UPDATE_PASSWORD,
+  },
+];
 
 const AccountScreen = ({ navigation }) => {
-  const menuItems = [
-    {
-      title: "My Services",
-      icon: {
-        name: "format-list-bulleted",
-        backgroundColor: colors.primary,
-      },
-      targetScreen: routes.SERVICES,
-    },
-    {
-      title: "Change Phone Number",
-      icon: {
-        name: "phone",
-        backgroundColor: colors.secondary,
-      },
-      targetScreen: routes.UPDATE_PHONE,
-    },
-    {
-      title: "Change Password",
-      icon: {
-        name: "lock",
-        backgroundColor: colors.grey_dark_1,
-      },
-      targetScreen: routes.UPDATE_PASSWORD,
-    },
-  ];
+  const { user, setUser } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    setUser(null);
+    authStorage.removeToken();
+  };
+
   return (
     <AppScreen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Christian Kingue"
-          subTitle="kingue@gmail.com"
+          title={user.firstname + " " + user.lastname}
+          subTitle={user.email}
           image={require("../assets/profile.jpg")}
           onPress={() => navigation.navigate(routes.PROFILE)}
         />
@@ -65,6 +75,7 @@ const AccountScreen = ({ navigation }) => {
       <ListItem
         title="LogOut"
         IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        onPress={handleLogOut}
       />
     </AppScreen>
   );
