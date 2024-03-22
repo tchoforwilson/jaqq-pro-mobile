@@ -21,9 +21,9 @@ const AuthNavigator = () => {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="Add Phone Number" component={AddPhoneNumberScreen} />
+      <Stack.Screen name="AddPhoneNumber" component={AddPhoneNumberScreen} />
       <Stack.Screen
-        name="Confirm Phone Number"
+        name="ConfirmPhoneNumber"
         component={ConfirmPhoneNumberScreen}
       />
     </Stack.Navigator>
