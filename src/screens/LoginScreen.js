@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import * as Yup from "yup";
 
@@ -11,9 +11,9 @@ import {
   FormPasswordField,
 } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
-import { useContext } from "react";
-import { AuthContext, authStorage } from "../context";
 import defaultStyles from "../configurations/styles";
+import { useApi, useAuth } from "../hooks";
+import { AppActivityIndicator } from "../components/indicators";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,62 +27,66 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreeen = ({ navigation }) => {
-  const authContext = useContext(AuthContext);
-  const [loginFailed, setLoginFailed] = useState(false);
+  const loginApi = useApi(authServices.login);
+  const auth = useAuth();
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (values) => {
-    const result = await authServices.login(values);
+    const result = await loginApi.request(values);
 
-    if (!result.ok) return setLoginFailed(true);
+    if (!result.ok) {
+      if (result.data) setError(result.data.message);
+      else {
+        setError("An unexpected error occurred.");
+      }
+      return;
+    }
 
-    setLoginFailed(false);
-
-    authStorage.storeToken(result.data.token);
-    authServices.setCurrentUser(result.data.data);
-    authContext.setUser(result.data.data);
+    auth.logIn(result.data.token, result.data.data);
   };
   return (
-    <AppScreen style={styles.screen}>
-      <AppText style={styles.logo}>Jaqq Pro</AppText>
-      <View style={defaultStyles.heading}>
-        <Text style={defaultStyles.heading.primary}>Login</Text>
-        <AppText style={defaultStyles.heading.secondary}>
-          Enter your email and password
-        </AppText>
-      </View>
-      <View style={defaultStyles.form}>
-        <FormContainer
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <FormErrorMessage
-            error="Invalid email or password"
-            visible={loginFailed}
-          />
-          <FormField
-            label="Email"
-            name="email"
-            iconType="email"
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-          />
-          <FormPasswordField label="Password" name="password" />
-          <SubmitButton title="Login" />
-        </FormContainer>
-      </View>
-      <View style={styles.signup}>
-        <AppText>Don't have an account?</AppText>
-        <AppText
-          style={styles.signup.link}
-          onPress={() => navigation.navigate("Register")}
-        >
-          sign up
-        </AppText>
-      </View>
-    </AppScreen>
+    <Fragment>
+      <AppActivityIndicator visible={loginApi.loading} />
+      <AppScreen style={styles.screen}>
+        <AppText style={styles.logo}>Jaqq Pro</AppText>
+        <View style={defaultStyles.heading}>
+          <Text style={defaultStyles.heading.primary}>Login</Text>
+          <AppText style={defaultStyles.heading.secondary}>
+            Enter your email and password
+          </AppText>
+        </View>
+        <View style={defaultStyles.form}>
+          <FormContainer
+            initialValues={{ email: "", password: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <FormErrorMessage error={error} visible={error} />
+            <FormField
+              label="Email"
+              name="email"
+              iconType="email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="always"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+            />
+            <FormPasswordField label="Password" name="password" />
+            <SubmitButton title="Login" />
+          </FormContainer>
+        </View>
+        <View style={styles.signup}>
+          <AppText>Don't have an account?</AppText>
+          <AppText
+            style={styles.signup.link}
+            onPress={() => navigation.navigate("Register")}
+          >
+            sign up
+          </AppText>
+        </View>
+      </AppScreen>
+    </Fragment>
   );
 };
 

@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { AppScreen, AppText } from "../components/common";
 import {
   FormContainer,
+  FormErrorMessage,
   FormField,
   FormPasswordField,
 } from "../components/forms";
 import { SubmitButton } from "../components/buttons";
 import defaultStyles from "../configurations/styles";
+import authServices from "../services/auth.services";
+import { useApi, useAuth } from "../hooks";
+import App from "../../App";
+import { AppActivityIndicator } from "../components/indicators";
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
+  firstname: Yup.string()
     .required("First name is required!")
     .label("First name"),
-  lastName: Yup.string().required("Last name is required!").label("Last name"),
+  lastname: Yup.string().required("Last name is required!").label("Last name"),
   email: Yup.string()
     .email("Email invalid!")
     .required("Email required!")
@@ -31,11 +36,26 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterScreen = ({ navigation }) => {
-  const handleSubmit = (data) => {
-    console.log(data);
+  const registerApi = useApi(authServices.register);
+  const auth = useAuth();
+  const [error, setError] = useState(null);
+  const handleSubmit = async (values) => {
+    const result = await registerApi.request(values);
+
+    if (!result.ok) {
+      if (result.data) setError(result.data.message);
+      else {
+        setError("An unexpected error occurred.");
+        console.log(error);
+      }
+      return;
+    }
+
+    auth.logIn(result.data.token, result.data.data);
   };
   return (
     <AppScreen style={styles.screen}>
+      <AppActivityIndicator visible={registerApi.loading} />
       <ScrollView style={styles.scrollView}>
         <AppText style={styles.logo}>Jaqq Pro</AppText>
         <View style={defaultStyles.heading}>
@@ -56,9 +76,10 @@ const RegisterScreen = ({ navigation }) => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
+            <FormErrorMessage error={error} visible={error} />
             <FormField
               label="First name"
-              name="firstName"
+              name="firstname"
               iconType="account"
               autoCapitalize="none"
               autoCorrect={false}
@@ -68,7 +89,7 @@ const RegisterScreen = ({ navigation }) => {
             />
             <FormField
               label="Last name"
-              name="lastName"
+              name="lastname"
               iconType="account"
               autoCapitalize="none"
               autoCorrect={false}
@@ -137,6 +158,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    width: "100%",
   },
 });
 

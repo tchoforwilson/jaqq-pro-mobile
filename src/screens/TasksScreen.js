@@ -67,39 +67,43 @@ const TasksScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <AppScreen style={styles.screen}>
-      <View style={styles.header}>
-        <MaterialCommunityIcons
-          name="sort"
-          size={28}
-          color={colors.grey_dark_1}
-          onPress={() => setModalVisible(true)}
-        />
-      </View>
-      {error && (
-        <Fragment>
-          <AppText>Couldn't retrieve the tasks.</AppText>
-          <AppButton title="Retry" onPress={loadTasks} />
-        </Fragment>
-      )}
+    <Fragment>
       <AppActivityIndicator visible={loading} />
-      <FlatList
-        data={tasks}
-        keyExtractor={(task) => task.id.toString()}
-        renderItem={({ item }) => (
-          <TaskItem
-            task={item}
-            onPress={() => navigation.navigate(routes.TASK_DETAILS, item)}
-          />
-        )}
-      />
 
-      <FilterTaskModal
-        isVisible={modalVisible}
-        onClose={() => setModalVisible(!modalVisible)}
-        onSubmit={handleSubmit}
-      />
-    </AppScreen>
+      <AppScreen style={styles.screen}>
+        <View style={styles.header}>
+          <MaterialCommunityIcons
+            name="sort"
+            size={28}
+            color={colors.grey_dark_1}
+            onPress={() => setModalVisible(true)}
+          />
+        </View>
+        {error && (
+          <Fragment>
+            <AppText>Couldn't retrieve the tasks.</AppText>
+            <AppButton title="Retry" onPress={loadTasks} />
+          </Fragment>
+        )}
+
+        <FlatList
+          data={tasks}
+          keyExtractor={(task) => task.id.toString()}
+          renderItem={({ item }) => (
+            <TaskItem
+              task={item}
+              onPress={() => navigation.navigate(routes.TASK_DETAILS, item)}
+            />
+          )}
+        />
+
+        <FilterTaskModal
+          isVisible={modalVisible}
+          onClose={() => setModalVisible(!modalVisible)}
+          onSubmit={handleSubmit}
+        />
+      </AppScreen>
+    </Fragment>
   );
 };
 

@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import { AppScreen } from "../components/common";
-import { FormContainer, FormField } from "../components/forms";
+import {
+  FormContainer,
+  FormErrorMessage,
+  FormField,
+} from "../components/forms";
 import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
+import authServices from "../services/auth.services";
+import routes from "../routes";
 
 const validationSchema = Yup.object().shape({
   phoneCurrent: Yup.number()
@@ -19,7 +25,7 @@ const validationSchema = Yup.object().shape({
       return false;
     })
     .label("current Phone Number"),
-  phoneNew: Yup.number()
+  phone: Yup.number()
     .integer()
     .typeError("Number must be an integer")
     .test("is-nine-digits", "Number must be 9 digits", (value) => {
@@ -31,18 +37,28 @@ const validationSchema = Yup.object().shape({
     })
     .label("New Phone Number"),
 });
-const UpdatePhoneNumberScreen = () => {
-  const handleSubmit = (data) => {
-    console.log(data);
+const UpdatePhoneNumberScreen = ({ navigation }) => {
+  const [updatePhoneFailed, setUpdatePhoneFailed] = useState(false);
+  const handleSubmit = async (values) => {
+    const result = await authServices.updatePhoneNumber(values);
+
+    if (!result.ok) return setUpdatePhoneFailed(true);
+
+    setUpdatePhoneFailed(false);
+    return navigation.navigate(routes.CONFIRM_PHONENUMBER);
   };
   return (
     <AppScreen style={styles.screen}>
       <View style={styles.container}>
         <FormContainer
-          initialValues={{ phoneCurrent: "", phoneNew: "" }}
+          initialValues={{ phoneCurrent: "", phone: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
+          <FormErrorMessage
+            error="Invalid phone number"
+            visible={updatePhoneFailed}
+          />
           <FormField
             label="Old Phone Number"
             name="phoneCurrent"
@@ -51,7 +67,7 @@ const UpdatePhoneNumberScreen = () => {
           />
           <FormField
             label="New Phone Number"
-            name="phoneNew"
+            name="phone"
             iconType="phone"
             keyboardType="numeric"
           />
