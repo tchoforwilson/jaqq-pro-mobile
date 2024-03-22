@@ -22,6 +22,10 @@ const updateMyPhoto = (data) => {
   return api.patch(endpoint + "update-my-photo", data);
 };
 
+const getMyServices = () => {
+  return api.get(endpoint + "my-services");
+};
+
 const toggleMyServices = (data) => {
   return api.patch(endpoint + "toggle-my-services", data);
 };
@@ -36,6 +40,7 @@ export default {
   getMe,
   updateMe,
   updateMyPhoto,
+  getMyServices,
   toggleMyServices,
   deleteMe,
 };

@@ -2,20 +2,6 @@ import api from "./http.services";
 
 const endpoint = "/auth/";
 
-const getJwt = () => {
-  return null;
-};
-
-const loginWithJwt = (jwt) => {
-  console.log(jwt);
-};
-
-const setCurrentUser = (user) => {
-  console.log(user);
-};
-
-const getCurrentUser = () => {};
-
 const register = (data) => {
   return api.post(endpoint + "register", data);
 };
@@ -45,10 +31,6 @@ const updatePassword = (data) => {
 };
 
 export default {
-  getJwt,
-  loginWithJwt,
-  setCurrentUser,
-  getCurrentUser,
   register,
   login,
   registerPhone,
