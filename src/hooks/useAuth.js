@@ -6,7 +6,7 @@ export default useAuth = () => {
 
   const logIn = (authToken, newUser) => {
     setUser(newUser);
-    authStorage.storeToken(authToken);
+    if (authToken) authStorage.storeToken(authToken);
     authStorage.storeUser(newUser);
   };
 

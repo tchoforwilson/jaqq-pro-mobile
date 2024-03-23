@@ -6,7 +6,7 @@ import * as Notifications from "expo-notifications";
 import rootNavigation from "../navigations/rootNavigation";
 import userServices from "../services/user.services";
 
-export default useNotifications = (notificationListener) => {
+const useNotifications = (notificationListener) => {
   useEffect(() => {
     registerForPushNotifications();
 
@@ -40,3 +40,5 @@ export default useNotifications = (notificationListener) => {
     }
   };
 };
+
+export default useNotifications;
