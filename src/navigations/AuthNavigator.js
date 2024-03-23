@@ -1,13 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import {
-  AddPhoneNumberScreen,
-  ConfirmPhoneNumberScreen,
-  LoginScreen,
-  RegisterScreen,
-  WelcomeScreen,
-} from "../screens";
+import { LoginScreen, RegisterScreen, WelcomeScreen } from "../screens";
 
 const Stack = createStackNavigator();
 
@@ -21,11 +15,6 @@ const AuthNavigator = () => {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="AddPhoneNumber" component={AddPhoneNumberScreen} />
-      <Stack.Screen
-        name="ConfirmPhoneNumber"
-        component={ConfirmPhoneNumberScreen}
-      />
     </Stack.Navigator>
   );
 };
