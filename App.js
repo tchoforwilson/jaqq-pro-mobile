@@ -9,6 +9,7 @@ import {
 } from "./src/navigations";
 import OfflineNotice from "./src/components/common/OfflineNotice";
 import { AuthContext, authStorage } from "./src/context";
+import { navigationRef } from "./src/navigations/rootNavigation";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -43,7 +44,11 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <OfflineNotice />
-      <NavigationContainer theme={NavigationTheme} onReady={onLayoutRootView}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={NavigationTheme}
+        onReady={onLayoutRootView}
+      >
         {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>
