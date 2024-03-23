@@ -16,6 +16,7 @@ import { UpdateServicesModal } from "../components/modals";
 import { useApi } from "../hooks";
 import userServices from "../services/user.services";
 import { AppActivityIndicator } from "../components/indicators";
+import { CONST_ZEROU } from "../constants";
 
 const ServiceItem = ({ service }) => {
   return (
@@ -82,7 +83,11 @@ const ServicesScreen = () => {
           <Button
             style={{ flex: 0, alignSelf: "center", padding: "4" }}
             color={colors.grey_dark_1}
-            title="Update services"
+            title={
+              services.length === CONST_ZEROU
+                ? "add service"
+                : "update services"
+            }
             onPress={() => setModalVisible(true)}
           />
         </View>

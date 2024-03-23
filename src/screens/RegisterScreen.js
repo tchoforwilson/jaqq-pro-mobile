@@ -13,7 +13,6 @@ import { SubmitButton } from "../components/buttons";
 import defaultStyles from "../configurations/styles";
 import authServices from "../services/auth.services";
 import { useApi, useAuth } from "../hooks";
-import App from "../../App";
 import { AppActivityIndicator } from "../components/indicators";
 
 const validationSchema = Yup.object().shape({
