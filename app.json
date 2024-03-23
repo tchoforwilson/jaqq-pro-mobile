@@ -15,16 +15,27 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tchofor.JaqqPro"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.tchofor.JaqqPro"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "053cb713-0d5b-43d0-86ec-4177e75b129a"
+      }
     }
+  },
+  "notification": {
+    "iosDisplayInForeground": true,
+    "androidDisplayInForeground": true
   }
 }
