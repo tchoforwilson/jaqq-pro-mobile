@@ -69,7 +69,6 @@ const TasksScreen = ({ navigation }) => {
   return (
     <Fragment>
       <AppActivityIndicator visible={loading} />
-
       <AppScreen style={styles.screen}>
         <View style={styles.header}>
           <MaterialCommunityIcons
