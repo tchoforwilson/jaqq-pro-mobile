@@ -3,20 +3,12 @@ import { View, StyleSheet, TouchableHighlight } from "react-native";
 import * as Yup from "yup";
 
 import { AppText } from "../common";
-import { FormCheckbox, FormContainer, FormRadioButton } from "../forms";
+import { FormContainer, FormRadioButton } from "../forms";
 import AppModal from "./AppModal";
 
 const validationSchema = Yup.object().shape({
   status: Yup.string(),
 });
-
-const FilterButton = ({ title, onPress }) => {
-  return (
-    <TouchableHighlight onPress={onPress}>
-      <AppText style={styles.btntext}>{title}</AppText>
-    </TouchableHighlight>
-  );
-};
 
 const tasks = [
   { label: "All tasks", value: "none" },
@@ -26,9 +18,9 @@ const tasks = [
   { label: "In progress tasks", value: "progress" },
 ];
 
-const FilterTaskModal = ({ isVisible, onClose, onSubmit }) => {
+const FilterTaskModal = ({ onSubmit }) => {
   return (
-    <AppModal isVisible={isVisible} onClose={onClose}>
+    <AppModal onSubmit={onSubmit}>
       <View style={styles.container}>
         <AppText style={styles.heading}>Filter tasks</AppText>
         <FormContainer
@@ -45,11 +37,6 @@ const FilterTaskModal = ({ isVisible, onClose, onSubmit }) => {
             />
           ))}
         </FormContainer>
-
-        <View style={styles.buttons}>
-          <FilterButton title="cancel" onClose={onClose} />
-          <FilterButton title="ok" onClose={onClose} />
-        </View>
       </View>
     </AppModal>
   );

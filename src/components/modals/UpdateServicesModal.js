@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
@@ -7,39 +7,59 @@ import FormCheckBox from "../forms/FormCheckBox";
 import { SubmitButton } from "../buttons";
 import AppModal from "./AppModal";
 import { CONST_ZEROU } from "../../constants";
-import { useApi } from "../../hooks";
+import { useApi, useAuth } from "../../hooks";
 import userServices from "../../services/user.services";
 import { AppActivityIndicator } from "../indicators";
+import serviceServices from "../../services/service.services";
 
 const validationSchema = Yup.object().shape({
   services: Yup.array().of(Yup.string().required()),
 });
 
-const UpdateServicesModal = ({ isVisible, onClose, services }) => {
-  const { loading, request: updateMyServices } = useApi(
-    userServices.toggleMyServices
-  );
+const UpdateServicesModal = ({ services }) => {
+  const auth = useAuth();
+  const [appServices, setAppServices] = useState([]);
 
-  const handleSubmit = (values) => {
-    updateMyServices(values);
+  const appServicesApi = useApi(serviceServices.getAllServices);
+  const updateServicesApi = useApi(userServices.toggleMyServices);
+
+  const handleSubmit = async (values) => {
+    const result = await updateServicesApi(values);
+    if (result.ok) {
+      auth.storeNewUser(updateServicesApi.data);
+    }
   };
+
+  const loadAppServices = async () => {
+    const result = await appServicesApi();
+    if (result.ok) {
+      setAppServices(result.data.data);
+    }
+  };
+
+  useEffect(() => {
+    loadAppServices();
+  }, []);
+
   return (
     <Fragment>
-      <AppActivityIndicator visible={loading} />
-      <AppModal isVisible={isVisible} onClose={onClose}>
+      <AppActivityIndicator
+        visible={appServicesApi.label || updateServicesApi.loading}
+      />
+      <AppModal>
         <FormContainer
           initialValues={{
-            services: ["1", "3"],
+            services,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {services.map((service) => (
+          {appServices.map((service) => (
             <FormCheckBox
-              key={service.id}
-              label={service.label}
+              key={service.id || service.id}
+              label={service.title}
               name="services"
-              value={service.id}
+              value={service._id || service.id}
             />
           ))}
           <SubmitButton
@@ -56,8 +76,6 @@ const UpdateServicesModal = ({ isVisible, onClose, services }) => {
 };
 
 UpdateServicesModal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   services: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
