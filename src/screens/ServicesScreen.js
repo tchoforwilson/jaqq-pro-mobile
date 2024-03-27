@@ -13,7 +13,7 @@ import { AppScreen, AppText } from "../components/common";
 import Icon from "../components/Icon";
 import colors from "../configurations/colors";
 import { UpdateServicesModal } from "../components/modals";
-import { useApi } from "../hooks";
+import { useApi, useModal } from "../hooks";
 import userServices from "../services/user.services";
 import { AppActivityIndicator } from "../components/indicators";
 import { CONST_ZEROU } from "../constants";
@@ -31,8 +31,8 @@ const ServiceItem = ({ service }) => {
           />
         </View>
         <View style={styles.detailsContainer}>
-          <AppText style={styles.label} numberOfLines={1}>
-            {service.label}
+          <AppText style={styles.title} numberOfLines={1}>
+            {service.title}
           </AppText>
           <AppText style={styles.subTitle}>{service.tasks + " Task"}</AppText>
         </View>
@@ -44,20 +44,23 @@ const ServiceItem = ({ service }) => {
 ServiceItem.propTypes = {
   service: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     tasks: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 const ServicesScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const { toggleModal } = useModal();
   const {
     data: services,
     error,
     loading,
     request: getMyServices,
   } = useApi(userServices.getMyServices);
+
+  handleSubmit = () => {
+    console.log("Updating my services");
+  };
 
   useEffect(() => {
     getMyServices();
@@ -77,7 +80,7 @@ const ServicesScreen = () => {
           <FlatList
             style={styles.services}
             data={services}
-            keyExtractor={(service) => service.id || service.label}
+            keyExtractor={(service) => service.id || service.title}
             renderItem={({ item }) => <ServiceItem service={item} />}
           />
           <Button
@@ -88,14 +91,10 @@ const ServicesScreen = () => {
                 ? "add service"
                 : "update services"
             }
-            onPress={() => setModalVisible(true)}
+            onPress={toggleModal}
           />
         </View>
-        <UpdateServicesModal
-          isVisible={modalVisible}
-          onClose={() => setModalVisible(!modalVisible)}
-          services={services}
-        />
+        <UpdateServicesModal onSubmit={handleSubmit} services={services} />
       </AppScreen>
     </Fragment>
   );
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     color: colors.grey_dark_2,
     fontSize: 16,
   },
-  label: {
+  title: {
     fontWeight: "500",
   },
   container: {},

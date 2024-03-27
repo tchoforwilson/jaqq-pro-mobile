@@ -1,65 +1,100 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, { Fragment } from "react";
+import { View, StyleSheet, TouchableHighlight } from "react-native";
+import * as Yup from "yup";
+
 import { AppScreen, AppText } from "../components/common";
 import AuthHeading from "../components/header/AuthHeading";
-import { AppTextInput } from "../components/inputs";
 import colors from "../configurations/colors";
-import { AppButton } from "../components/buttons";
+import defaultsStyles from "../configurations/styles";
+import { SubmitButton } from "../components/buttons";
+import authServices from "../services/auth.services";
+import { useApi, useAuth } from "../hooks";
+import { AppActivityIndicator } from "../components/indicators";
+import { FormContainer, FormField } from "../components/forms";
 
-const ConfirmPhoneNumberScreen = () => {
-  const handlePress = () => {
-    console.log("pressed");
+const validationSchema = Yup.object().shape({
+  code: Yup.number().required("Code required!").label("Code"),
+});
+
+const ConfirmPhoneNumberScreen = ({ route }) => {
+  const { phone } = route.params;
+
+  const auth = useAuth();
+  const resendApi = useApi(authServices.resendSMSCode);
+  const verifyApi = useApi(authServices.verifySMSCode);
+
+  const handleResend = async () => {
+    await resendApi.request({ phone });
   };
+
+  const handleSubmit = async (values) => {
+    const result = await verifyApi.request(values);
+    if (result.ok) {
+      return auth.storeNewUser(verifyApi.data);
+    }
+  };
+
   return (
-    <AppScreen>
-      <AuthHeading
-        title="confirm your number"
-        subtitle="Enter the code we sent to the number ending"
-      />
-      <AppText style={styles.number}>0931</AppText>
-      <View style={styles.inputsContainer}>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <AppTextInput
-            key={index}
-            style={styles.input}
-            secureTextEntry
-            textContentType="password"
-            keyboardType="number-pad"
-          />
-        ))}
-      </View>
-      <AppText style={styles.codeLink}>Send code again</AppText>
-      <AppButton title="continue" onPress={handlePress} color="primary" />
-    </AppScreen>
+    <Fragment>
+      <AppActivityIndicator visible={verifyApi.loading} />
+      <AppScreen style={styles.screen}>
+        <AuthHeading
+          title="phone verification"
+          subtitle={`Enter the code sent to ${phone}`}
+        />
+        <View style={defaultsStyles.form}>
+          <FormContainer
+            initialValues={{ code: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <FormField
+              label="Code"
+              name="code"
+              iconType="lock-question"
+              maxLength={4}
+              keyboardType="numeric"
+              textContentType="oneTimeCode"
+              clearButtonMode="always"
+            />
+            <SubmitButton title="Continue" />
+          </FormContainer>
+        </View>
+        <View style={styles.codeLink}>
+          <AppText>if you didn't receive a code!</AppText>
+          <TouchableHighlight onPress={handleResend}>
+            <AppText style={styles.resend}>Resend</AppText>
+          </TouchableHighlight>
+        </View>
+      </AppScreen>
+    </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  number: {
-    fontWeight: "700",
+  screen: {
+    backgroundColor: colors.light,
   },
-  inputsContainer: {
+  inputContainer: {
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 25,
   },
-  input: {
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: colors.grey_dark_3,
-    width: "20%",
-    color: colors.black,
-    paddingVertical: 10,
-    fontSize: 20,
-    fontWeight: "700",
-    textAlign: "center",
-  },
   codeLink: {
-    textAlign: "center",
-    color: colors.primary,
+    display: "flex",
+    gap: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
-    marginBottom: 60,
+  },
+  resend: {
+    color: colors.primary,
+    textTransform: "capitalize",
+    fontWeight: "700",
+    fontSize: 18,
   },
 });
 

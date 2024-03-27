@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import React from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { AppScreen, AppText } from "../components/common";
 import {
   FormContainer,
-  FormErrorMessage,
   FormField,
   FormPasswordField,
 } from "../components/forms";
@@ -37,25 +42,22 @@ const validationSchema = Yup.object().shape({
 const RegisterScreen = ({ navigation }) => {
   const registerApi = useApi(authServices.register);
   const auth = useAuth();
-  const [error, setError] = useState(null);
+
   const handleSubmit = async (values) => {
     const result = await registerApi.request(values);
 
-    if (!result.ok) {
-      if (result.data) setError(result.data.message);
-      else {
-        setError("An unexpected error occurred.");
-        console.log(error);
-      }
-      return;
+    if (result.ok) {
+      auth.logIn(result.data.token);
+      auth.storeNewUser(registerApi.data);
     }
-
-    auth.logIn(result.data.token, result.data.data);
   };
   return (
     <AppScreen style={styles.screen}>
       <AppActivityIndicator visible={registerApi.loading} />
-      <ScrollView style={styles.scrollView}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardView}
+      >
         <AppText style={styles.logo}>Jaqq Pro</AppText>
         <View style={defaultStyles.heading}>
           <Text style={defaultStyles.heading.primary}>Sign up</Text>
@@ -66,8 +68,8 @@ const RegisterScreen = ({ navigation }) => {
         <View style={defaultStyles.form}>
           <FormContainer
             initialValues={{
-              firstName: "",
-              lastName: "",
+              firstname: "",
+              lastname: "",
               email: "",
               password: "",
               passwordConfirm: "",
@@ -75,7 +77,6 @@ const RegisterScreen = ({ navigation }) => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <FormErrorMessage error={error} visible={error} />
             <FormField
               label="First name"
               name="firstname"
@@ -122,7 +123,7 @@ const RegisterScreen = ({ navigation }) => {
             Login
           </AppText>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </AppScreen>
   );
 };
@@ -144,7 +145,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textTransform: "uppercase",
   },
-
   login: {
     marginTop: 30,
     display: "flex",
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
       marginLeft: 5,
     },
   },
-  scrollView: {
+  keyboardView: {
     flex: 1,
     width: "100%",
   },

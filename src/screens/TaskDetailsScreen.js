@@ -4,39 +4,65 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AppScreen, AppText } from "../components/common";
 import colors from "../configurations/colors";
+import { Fragment } from "react";
+import { AppActivityIndicator } from "../components/indicators";
+import { useApi } from "../hooks";
+import tasksServices from "../services/tasks.services";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const TaskDetailsScreen = ({ route }) => {
-  const task = route.params;
+  const [task, setTask] = useState();
+  const {
+    loading,
+    data,
+    request: getTaskApi,
+  } = useApi(tasksServices.getTaskById);
+  const taskId = route.params;
+  const loadTask = async () => {
+    const result = await getTaskApi(taskId);
+    if (result.ok) {
+      setTask(data);
+    }
+  };
+
+  useEffect(() => {
+    loadTask();
+  }, []);
+
   return (
-    <AppScreen style={styles.screen}>
-      <View style={styles.container}>
-        <View style={styles.detailsContainer}>
-          <AppText style={styles.name}>{task.name}</AppText>
-          <AppText style={styles.price}>{task.price + " XAF"}</AppText>
-        </View>
-        <View style={styles.locationContainer}>
-          <MaterialCommunityIcons
-            name="map-marker"
-            size={25}
-            color={colors.white}
-            style={styles.icon}
-          />
-          <AppText style={styles.location}>{task.location}</AppText>
-        </View>
-        <View style={styles.userContainer}>
-          <Image
-            style={styles.userimage}
-            source={require("../assets/profile.jpg")}
-          />
-          <View style={styles.userDetails}>
-            <AppText style={styles.username} numberOfLines={1}>
-              {task.user.name}
-            </AppText>
-            <AppText style={styles.userphone}>{task.user.phone}</AppText>
+    <Fragment>
+      <AppActivityIndicator visible={loading} />
+      <AppScreen style={styles.screen}>
+        <View style={styles.container}>
+          <View style={styles.detailsContainer}>
+            <AppText style={styles.name}>{task.name}</AppText>
+            <AppText style={styles.price}>{task.price + " XAF"}</AppText>
+          </View>
+          <View style={styles.locationContainer}>
+            <MaterialCommunityIcons
+              name="map-marker"
+              size={25}
+              color={colors.white}
+              style={styles.icon}
+            />
+            <AppText style={styles.location}>{task.location}</AppText>
+          </View>
+          <View style={styles.userContainer}>
+            <Image
+              style={styles.userimage}
+              source={require("../assets/profile.jpg")}
+            />
+            <View style={styles.userDetails}>
+              <AppText style={styles.username} numberOfLines={1}>
+                {task.user.name}
+              </AppText>
+              <AppText style={styles.userphone}>{task.user.phone}</AppText>
+            </View>
           </View>
         </View>
-      </View>
-    </AppScreen>
+      </AppScreen>
+    </Fragment>
   );
 };
 

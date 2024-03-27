@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -12,6 +12,8 @@ import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
 import authServices from "../services/auth.services";
 import routes from "../routes";
+import { useApi, useAuth } from "../hooks";
+import { AppActivityIndicator } from "../components/indicators";
 
 const validationSchema = Yup.object().shape({
   phoneCurrent: Yup.number()
@@ -38,43 +40,52 @@ const validationSchema = Yup.object().shape({
     .label("New Phone Number"),
 });
 const UpdatePhoneNumberScreen = ({ navigation }) => {
-  const [updatePhoneFailed, setUpdatePhoneFailed] = useState(false);
+  const auth = useAuth();
+  const {
+    loading,
+    data,
+    request: updatePhoneApi,
+  } = useApi(authServices.updatePhoneNumber);
+
   const handleSubmit = async (values) => {
-    const result = await authServices.updatePhoneNumber(values);
+    const result = await updatePhoneApi(values);
 
-    if (!result.ok) return setUpdatePhoneFailed(true);
-
-    setUpdatePhoneFailed(false);
-    return navigation.navigate(routes.CONFIRM_PHONENUMBER);
+    if (result.ok) {
+      auth.storeNewUser(data);
+      return navigation.navigate(routes.CONFIRM_PHONENUMBER, values);
+    }
   };
   return (
-    <AppScreen style={styles.screen}>
-      <View style={styles.container}>
-        <FormContainer
-          initialValues={{ phoneCurrent: "", phone: "" }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <FormErrorMessage
-            error="Invalid phone number"
-            visible={updatePhoneFailed}
-          />
-          <FormField
-            label="Old Phone Number"
-            name="phoneCurrent"
-            iconType="phone"
-            keyboardType="numeric"
-          />
-          <FormField
-            label="New Phone Number"
-            name="phone"
-            iconType="phone"
-            keyboardType="numeric"
-          />
-          <SubmitButton title="Change number" />
-        </FormContainer>
-      </View>
-    </AppScreen>
+    <Fragment>
+      <AppActivityIndicator visible={loading} />
+      <AppScreen style={styles.screen}>
+        <View style={styles.container}>
+          <FormContainer
+            initialValues={{ phoneCurrent: "", phone: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <FormField
+              label="Old Phone Number"
+              name="phoneCurrent"
+              iconType="phone"
+              keyboardType="numeric"
+              maxLength={9}
+              minLength={9}
+            />
+            <FormField
+              label="New Phone Number"
+              name="phone"
+              iconType="phone"
+              keyboardType="numeric"
+              maxLength={9}
+              minLength={9}
+            />
+            <SubmitButton title="Change number" />
+          </FormContainer>
+        </View>
+      </AppScreen>
+    </Fragment>
   );
 };
 

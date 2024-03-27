@@ -15,7 +15,7 @@ import routes from "../routes";
 import { FilterTaskModal } from "../components/modals";
 import { AppButton } from "../components/buttons";
 import { AppActivityIndicator } from "../components/indicators";
-import { useApi } from "../hooks";
+import { useApi, useModal } from "../hooks";
 
 const TaskItem = ({ task, onPress }) => {
   return (
@@ -50,13 +50,13 @@ TaskItem.propTypes = {
 };
 
 const TasksScreen = ({ navigation }) => {
+  const { toggleModal } = useModal();
   const {
     data: tasks,
     error,
     loading,
     request: loadTasks,
   } = useApi(tasksService.getAllTasks);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -75,7 +75,7 @@ const TasksScreen = ({ navigation }) => {
             name="sort"
             size={28}
             color={colors.grey_dark_1}
-            onPress={() => setModalVisible(true)}
+            onPress={toggleModal}
           />
         </View>
         {error && (
@@ -96,11 +96,7 @@ const TasksScreen = ({ navigation }) => {
           )}
         />
 
-        <FilterTaskModal
-          isVisible={modalVisible}
-          onClose={() => setModalVisible(!modalVisible)}
-          onSubmit={handleSubmit}
-        />
+        <FilterTaskModal onSubmit={handleSubmit} />
       </AppScreen>
     </Fragment>
   );

@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import authServices from "../services/auth.services";
 import { AppScreen, AppText } from "../components/common";
 import {
-  FormErrorMessage,
   FormContainer,
   FormField,
   FormPasswordField,
@@ -29,20 +28,14 @@ const validationSchema = Yup.object().shape({
 const LoginScreeen = ({ navigation }) => {
   const loginApi = useApi(authServices.login);
   const auth = useAuth();
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (values) => {
     const result = await loginApi.request(values);
 
-    if (!result.ok) {
-      if (result.data) setError(result.data.message);
-      else {
-        setError("An unexpected error occurred.");
-      }
-      return;
+    if (result.ok) {
+      auth.logIn(result.data.token);
+      auth.storeNewUser(result.data.data);
     }
-
-    auth.logIn(result.data.token, result.data.data);
   };
   return (
     <Fragment>
@@ -61,7 +54,6 @@ const LoginScreeen = ({ navigation }) => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <FormErrorMessage error={error} visible={error} />
             <FormField
               label="Email"
               name="email"

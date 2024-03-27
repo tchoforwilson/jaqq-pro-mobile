@@ -44,7 +44,7 @@ const AccountScreen = ({ navigation }) => {
         <ListItem
           title={user.firstname + " " + user.lastname}
           subTitle={user.email}
-          image={require("../assets/profile.jpg")}
+          image={{ uri: user.photo }}
           onPress={() => navigation.navigate(routes.PROFILE)}
         />
       </View>
