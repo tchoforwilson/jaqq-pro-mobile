@@ -4,9 +4,21 @@ import { AuthContext, authStorage } from "../context";
 export default useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
 
-  const logIn = (authToken, newUser) => {
+  /**
+   * @breif Log a new user in
+   * @param {String} authToken Authentication token
+   * @param {Object} newUser New user object
+   */
+  const logIn = (authToken) => {
+    authStorage.storeToken(authToken);
+  };
+
+  /**
+   * @breif Store a new user object
+   * @param {Object} newUser New user objects
+   */
+  const storeNewUser = (newUser) => {
     setUser(newUser);
-    if (authToken) authStorage.storeToken(authToken);
     authStorage.storeUser(newUser);
   };
 
@@ -15,5 +27,5 @@ export default useAuth = () => {
     authStorage.removeToken();
   };
 
-  return { user, logIn, logOut };
+  return { user, storeNewUser, logIn, logOut };
 };

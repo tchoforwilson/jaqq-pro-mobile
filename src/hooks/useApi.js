@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import { ErrorContext } from "../context";
+import useAuth from "./useAuth";
 
 const useApi = (apiFunc) => {
-  const { setMessage, setVisible } = useContext(ErrorContext);
+  const auth = useAuth();
+  const { setMessage, setVisible, status, setStatus } =
+    useContext(ErrorContext);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,15 @@ const useApi = (apiFunc) => {
 
     if (!response.ok) {
       if (response.data) {
+        const { data } = response;
+        if (data.message.includes("jwt") || data.message.includes("token")) {
+          // User token has expired, and logout user
+          // TODO: Implement refresh token
+          return auth.logOut();
+        }
+
         setMessage(response.data.message);
+        setStatus(response.data.status);
         setVisible(true);
       }
     }
@@ -25,7 +36,7 @@ const useApi = (apiFunc) => {
     return response;
   };
 
-  return { data, error, loading, request };
+  return { data, error, status, loading, request };
 };
 
 export default useApi;
