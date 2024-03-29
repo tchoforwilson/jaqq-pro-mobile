@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const key = "authToken";
 const userKey = "user";
+const conKey = "socketId";
 
 const storeToken = async (authToken) => {
   try {
@@ -45,10 +46,38 @@ const removeToken = async () => {
   }
 };
 
+const storeSocketId = async (socketId) => {
+  try {
+    await AsyncStorage.setItem(conKey, socketId);
+  } catch (error) {
+    console.log("Error storing the socketId", error);
+  }
+};
+
+const getSocketId = async () => {
+  try {
+    return await AsyncStorage.getItem(conKey);
+  } catch (error) {
+    console.log("Error couldn't retrieve socketId", error);
+    return null;
+  }
+};
+
+const removeSocketId = async () => {
+  try {
+    await AsyncStorage.removeItem(conKey);
+  } catch (error) {
+    console.log("Error removing the socketId", error);
+  }
+};
+
 export default {
   getToken,
   getUser,
   storeUser,
   storeToken,
   removeToken,
+  storeSocketId,
+  getSocketId,
+  removeSocketId,
 };
