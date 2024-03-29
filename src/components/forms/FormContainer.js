@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Formik } from "formik";
 
 /**
@@ -14,14 +14,16 @@ const FormContainer = ({
   validationSchema,
   onSubmit,
   children,
+  ...otherProps
 }) => {
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      {...otherProps}
     >
-      {() => <>{children}</>}
+      {() => <Fragment>{children}</Fragment>}
     </Formik>
   );
 };
