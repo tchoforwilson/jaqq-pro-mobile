@@ -4,11 +4,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
-import { useNotifications } from "../hooks";
+import { useConnection, useLocation, useNotifications } from "../hooks";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
+  useConnection();
+  useLocation();
   useNotifications();
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
