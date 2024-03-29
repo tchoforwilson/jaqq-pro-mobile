@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import userServices from "../services/user.services";
 
-export default useLocation = () => {
+const useLocation = () => {
   const [location, setLocation] = useState();
 
-  try {
-    const getLocation = async () => {
-      const { granted } = await Location.requestPermissionsAsync();
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestBackgroundPermissionsAsync();
       if (!granted) return;
-      const {
-        coords: { latitude, longitude },
-      } = await Location.getLastKnownPositionAsync();
+      // const {
+      //   coords: { latitude, longitude },
+      // } = await Location.getLastKnownPositionAsync();
+      //const location = await Location.getLastKnownPositionAsync();
+      console.log(location);
       setLocation({ latitude, longitude });
-    };
-  } catch (error) {
-    console.log(error);
-  }
+      userServices.updateUserLocation(location);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getLocation();
@@ -23,3 +27,5 @@ export default useLocation = () => {
 
   return location;
 };
+
+export default useLocation;
