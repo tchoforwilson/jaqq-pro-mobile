@@ -2,8 +2,9 @@ import React from "react";
 import { View, StyleSheet, Modal, Pressable } from "react-native";
 import Constants from "expo-constants";
 import { AppText } from "../common";
-import { useModal } from "../../hooks";
 import colors from "../../configurations/colors";
+import { useModal } from "../../hooks";
+import rootFormik from "../forms/rootFormik";
 
 const PressButton = ({ title, onPress }) => {
   return (
@@ -19,9 +20,9 @@ const PressButton = ({ title, onPress }) => {
   );
 };
 
-const AppModal = ({ onSubmit, children }) => {
+const AppModal = ({ children }) => {
   const { modalVisible, toggleModal } = useModal();
-  console.log(modalVisible);
+
   return (
     <Modal visible={modalVisible} transparent animationType="slide">
       <View style={styles.container}>
@@ -29,7 +30,7 @@ const AppModal = ({ onSubmit, children }) => {
           {children}
           <View style={styles.buttonGroup}>
             <PressButton title="Cancel" onPress={toggleModal} />
-            <PressButton title="Ok" onPress={onSubmit} />
+            <PressButton title="Ok" onPress={rootFormik.handleSubmit} />
           </View>
         </View>
       </View>
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.15)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     paddingTop: Constants.statusBarHeight,
   },
   button: {
