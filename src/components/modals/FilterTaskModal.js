@@ -1,41 +1,39 @@
 import React from "react";
-import { View, StyleSheet, TouchableHighlight } from "react-native";
+import { View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import { AppText } from "../common";
-import { FormContainer, FormRadioButton } from "../forms";
+import { FormContainer, FormRadioGroup } from "../forms";
 import AppModal from "./AppModal";
+import { formikRef } from "../forms/rootFormik";
 
 const validationSchema = Yup.object().shape({
-  status: Yup.string(),
+  status: Yup.string().label("status"),
 });
 
 const tasks = [
   { label: "All tasks", value: "none" },
-  { label: "Pending tasks", value: "pending" },
-  { label: "Completed tasks", value: "completed" },
-  { label: "Rejected tasks", value: "rejected" },
-  { label: "In progress tasks", value: "progress" },
+  { label: "Pending tasks", value: "Pending" },
+  { label: "Assigned tasks", value: "Assigned" },
+  { label: "In progress tasks", value: "In progress" },
+  { label: "Ready tasks", value: "Ready" },
+  { label: "Completed tasks", value: "Completed" },
+  { label: "Rejected tasks", value: "Rejected" },
+  { label: "Cancelled tasks", value: "Cancelled" },
 ];
 
 const FilterTaskModal = ({ onSubmit }) => {
   return (
-    <AppModal onSubmit={onSubmit}>
+    <AppModal>
       <View style={styles.container}>
         <AppText style={styles.heading}>Filter tasks</AppText>
         <FormContainer
           initialValues={{ status: "none" }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
+          innerRef={formikRef}
         >
-          {tasks.map((task) => (
-            <FormRadioButton
-              key={task.label}
-              label={task.label}
-              name="status"
-              value={task.value}
-            />
-          ))}
+          <FormRadioGroup items={tasks} name="status" />
         </FormContainer>
       </View>
     </AppModal>
