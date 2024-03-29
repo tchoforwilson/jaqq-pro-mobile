@@ -1,18 +1,13 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { RadioButton } from "react-native-paper";
-import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { AppText } from "../common";
 
-const FormRadioButton = ({ label, name, value }) => {
-  const { setFieldValue, values } = useFormikContext();
+const FormRadioButton = ({ label, value }) => {
   return (
     <View style={styles.container}>
-      <RadioButton
-        value={value}
-        onValueChange={(value) => setFieldValue(name, value)}
-      />
+      <RadioButton value={value} />
       <AppText style={styles.label}>{label}</AppText>
     </View>
   );
@@ -20,8 +15,8 @@ const FormRadioButton = ({ label, name, value }) => {
 
 FormRadioButton.propTypes = {
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
