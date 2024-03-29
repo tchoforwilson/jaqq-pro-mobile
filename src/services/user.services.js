@@ -18,6 +18,10 @@ const updateMe = (data) => {
   return api.patch(endpoint + "update-me", data);
 };
 
+const updateUserLocation = (data) => {
+  return api.patch(endpoint + "update-user-location", data);
+};
+
 const updatePushToken = (pushToken) => {
   return api.patch(endpoint + "update-push-token", { pushToken });
 };
@@ -31,7 +35,7 @@ const getMyServices = () => {
 };
 
 const toggleMyServices = (data) => {
-  return api.patch(endpoint + "toggle-my-services", data);
+  return api.patch(endpoint + "update-my-services", data);
 };
 
 const deleteMe = () => {
@@ -43,6 +47,7 @@ export default {
   getAllMyReviews,
   getMe,
   updateMe,
+  updateUserLocation,
   updatePushToken,
   updateMyPhoto,
   getMyServices,
