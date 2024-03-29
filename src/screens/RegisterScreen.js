@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  KeyboardAvoidingView,
-} from "react-native";
+import { Text, View, StyleSheet, Platform } from "react-native";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { AppScreen, AppText } from "../components/common";
@@ -18,6 +12,7 @@ import { SubmitButton } from "../components/buttons";
 import defaultStyles from "../configurations/styles";
 import authServices from "../services/auth.services";
 import { useApi, useAuth } from "../hooks";
+import { KeyBoardAvoidingViewContainer } from "../components/common";
 import { AppActivityIndicator } from "../components/indicators";
 
 const validationSchema = Yup.object().shape({
@@ -54,10 +49,7 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <AppScreen style={styles.screen}>
       <AppActivityIndicator visible={registerApi.loading} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardView}
-      >
+      <KeyBoardAvoidingViewContainer>
         <AppText style={styles.logo}>Jaqq Pro</AppText>
         <View style={defaultStyles.heading}>
           <Text style={defaultStyles.heading.primary}>Sign up</Text>
@@ -123,7 +115,7 @@ const RegisterScreen = ({ navigation }) => {
             Login
           </AppText>
         </View>
-      </KeyboardAvoidingView>
+      </KeyBoardAvoidingViewContainer>
     </AppScreen>
   );
 };
@@ -154,10 +146,6 @@ const styles = StyleSheet.create({
       textTransform: "capitalize",
       marginLeft: 5,
     },
-  },
-  keyboardView: {
-    flex: 1,
-    width: "100%",
   },
 });
 

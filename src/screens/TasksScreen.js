@@ -50,6 +50,7 @@ TaskItem.propTypes = {
 };
 
 const TasksScreen = ({ navigation }) => {
+  const [taskStatus, setTaskStatus] = useState("");
   const { toggleModal } = useModal();
   const {
     data: tasks,
@@ -58,13 +59,17 @@ const TasksScreen = ({ navigation }) => {
     request: loadTasks,
   } = useApi(tasksService.getAllTasks);
 
-  const handleSubmit = (data) => {
-    console.log(data);
+  const handleSubmit = (values) => {
+    const { status } = values;
+    if (status === "" || status === "none") return;
+    setTaskStatus(status);
+    loadTasks({ status: taskStatus });
+    toggleModal();
   };
 
   useEffect(() => {
-    loadTasks();
-  }, []);
+    loadTasks({ status: taskStatus });
+  }, [taskStatus]);
 
   return (
     <Fragment>

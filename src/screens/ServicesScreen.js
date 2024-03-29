@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import {
   Button,
   View,
@@ -58,10 +58,6 @@ const ServicesScreen = () => {
     request: getMyServices,
   } = useApi(userServices.getMyServices);
 
-  handleSubmit = () => {
-    console.log("Updating my services");
-  };
-
   useEffect(() => {
     getMyServices();
   }, []);
@@ -94,7 +90,7 @@ const ServicesScreen = () => {
             onPress={toggleModal}
           />
         </View>
-        <UpdateServicesModal onSubmit={handleSubmit} services={services} />
+        <UpdateServicesModal services={services} />
       </AppScreen>
     </Fragment>
   );

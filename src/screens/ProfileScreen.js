@@ -1,16 +1,20 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppScreen } from "../components/common";
-import { FormContainer, FormField, FormPicker } from "../components/forms";
+import {
+  FormContainer,
+  FormDateTimePicker,
+  FormField,
+  FormPicker,
+} from "../components/forms";
 import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
 import routes from "../routes";
 import { AppActivityIndicator } from "../components/indicators";
 import { useApi, useAuth } from "../hooks";
 import userServices from "../services/user.services";
-import { AuthContext } from "../context";
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required("First name required!").label("First name"),
@@ -19,21 +23,23 @@ const validationSchema = Yup.object().shape({
     .email("Email invalid!")
     .required("Email required!")
     .label("Email"),
-  gender: Yup.string().label("Gender"),
+  gender: Yup.string().notOneOf(["-1"], "Invalid gender").label("Gender"),
+  birthday: Yup.date().nullable().label("Birthday"),
 });
 
 const ProfileScreen = ({ navigation }) => {
-  const auth = useAuth();
+  const { user, storeNewUser } = useAuth();
   const { loading, request: profileApi } = useApi(userServices.updateMe);
-  const { user } = useContext(AuthContext);
 
-  const handleSubmit = async (data) => {
-    const result = await profileApi(data);
+  const handleSubmit = async (values) => {
+    const result = await profileApi(values);
 
     if (result.ok) {
-      auth.storeNewUser(res.data.data);
+      storeNewUser(result.data.data);
+      return;
     }
   };
+
   return (
     <Fragment>
       <AppActivityIndicator visible={loading} />
@@ -56,13 +62,14 @@ const ProfileScreen = ({ navigation }) => {
                 lastname: user.lastname,
                 email: user.email,
                 gender: user.gender,
+                birthday: user.birthday,
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
               <FormField
                 label="First name"
-                name="firstName"
+                name="firstname"
                 iconType="account"
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -72,7 +79,7 @@ const ProfileScreen = ({ navigation }) => {
               />
               <FormField
                 label="Last name"
-                name="lastName"
+                name="lastname"
                 iconType="account"
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -92,10 +99,16 @@ const ProfileScreen = ({ navigation }) => {
               <FormPicker
                 name="gender"
                 items={[
+                  { label: "Gender", value: "-1" },
                   { label: "Male", value: "male" },
                   { label: "Female", value: "female" },
                 ]}
                 iconType="gender-male-female"
+              />
+              <FormDateTimePicker
+                label="Birthday"
+                name="birthday"
+                iconType="calendar"
               />
               <SubmitButton title="Update Account" />
             </FormContainer>
@@ -111,9 +124,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    borderColor: colors.primary,
+    borderWidth: 2,
     marginBottom: 40,
   },
   imageContainer: {
@@ -121,8 +136,8 @@ const styles = StyleSheet.create({
   },
   imageIcon: {
     position: "absolute",
-    top: "70%",
-    right: "30%",
+    top: "65%",
+    right: "32%",
   },
   screen: {
     backgroundColor: colors.light,

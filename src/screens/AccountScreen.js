@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 import { useAuth } from "../hooks";
@@ -36,42 +36,44 @@ const menuItems = [
 ];
 
 const AccountScreen = ({ navigation }) => {
-  const { user, logOut } = useAuth();
+  const { logOut, user } = useAuth();
 
   return (
-    <AppScreen style={styles.screen}>
-      <View style={styles.container}>
+    <Fragment>
+      <AppScreen style={styles.screen}>
+        <View style={styles.container}>
+          <ListItem
+            title={user.firstname + " " + user.lastname}
+            subTitle={user.email}
+            image={{ uri: user.photo }}
+            onPress={() => navigation.navigate(routes.PROFILE)}
+          />
+        </View>
+        <View style={styles.container}>
+          <FlatList
+            data={menuItems}
+            keyExtractor={(menuItem) => menuItem.title}
+            renderItem={({ item }) => (
+              <ListItem
+                title={item.title}
+                IconComponent={
+                  <Icon
+                    name={item.icon.name}
+                    backgroundColor={item.icon.backgroundColor}
+                  />
+                }
+                onPress={() => navigation.navigate(item.targetScreen)}
+              />
+            )}
+          />
+        </View>
         <ListItem
-          title={user.firstname + " " + user.lastname}
-          subTitle={user.email}
-          image={{ uri: user.photo }}
-          onPress={() => navigation.navigate(routes.PROFILE)}
+          title="LogOut"
+          IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+          onPress={() => logOut()}
         />
-      </View>
-      <View style={styles.container}>
-        <FlatList
-          data={menuItems}
-          keyExtractor={(menuItem) => menuItem.title}
-          renderItem={({ item }) => (
-            <ListItem
-              title={item.title}
-              IconComponent={
-                <Icon
-                  name={item.icon.name}
-                  backgroundColor={item.icon.backgroundColor}
-                />
-              }
-              onPress={() => navigation.navigate(item.targetScreen)}
-            />
-          )}
-        />
-      </View>
-      <ListItem
-        title="LogOut"
-        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-        onPress={() => logOut()}
-      />
-    </AppScreen>
+      </AppScreen>
+    </Fragment>
   );
 };
 

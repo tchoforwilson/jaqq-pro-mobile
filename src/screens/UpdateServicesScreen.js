@@ -8,6 +8,7 @@ import { FormContainer } from "../components/forms";
 import FormCheckBox from "../components/forms/FormCheckBox";
 import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
+import rootFormik, { formikRef } from "../components/forms/rootFormik";
 
 const validationSchema = Yup.object().shape({
   services: Yup.array().of(Yup.string().required()),
@@ -31,10 +32,11 @@ const UpdateServicesScreen = ({ modalVisible, services = [] }) => {
           <View style={styles.modal}>
             <FormContainer
               initialValues={{
-                services: ["1", "3"],
+                services,
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
+              innerRef={formikRef}
             >
               {services.map((service) => (
                 <FormCheckBox
@@ -44,7 +46,6 @@ const UpdateServicesScreen = ({ modalVisible, services = [] }) => {
                   value={service.id}
                 />
               ))}
-              <SubmitButton title="Update services" />
             </FormContainer>
           </View>
         </View>

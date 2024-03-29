@@ -37,7 +37,8 @@ const UpdatePasswordScreen = () => {
 
     if (result.ok) {
       auth.logIn(result.data.token);
-      auth.storeNewUser(data);
+      auth.storeNewUser(result.data.data);
+      return;
     }
   };
   return (

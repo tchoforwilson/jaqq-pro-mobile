@@ -41,17 +41,15 @@ const validationSchema = Yup.object().shape({
 });
 const UpdatePhoneNumberScreen = ({ navigation }) => {
   const auth = useAuth();
-  const {
-    loading,
-    data,
-    request: updatePhoneApi,
-  } = useApi(authServices.updatePhoneNumber);
+  const { loading, request: updatePhoneApi } = useApi(
+    authServices.updatePhoneNumber
+  );
 
   const handleSubmit = async (values) => {
     const result = await updatePhoneApi(values);
 
     if (result.ok) {
-      auth.storeNewUser(data);
+      auth.storeNewUser(result.data.data);
       return navigation.navigate(routes.CONFIRM_PHONENUMBER, values);
     }
   };

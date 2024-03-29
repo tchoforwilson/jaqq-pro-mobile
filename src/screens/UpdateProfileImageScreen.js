@@ -10,13 +10,11 @@ import { useApi, useAuth } from "../hooks";
 import userServices from "../services/user.services";
 
 const UpdateProfileImageScreen = () => {
-  const auth = useAuth();
-  const [imageUri, setImageUri] = useState();
-  const {
-    loading,
-    data,
-    request: updateImageApi,
-  } = useApi(userServices.updateMyPhoto);
+  const { user, storeNewUser } = useAuth();
+  const [imageUri, setImageUri] = useState(user.photo || "");
+  const { loading, request: updateImageApi } = useApi(
+    userServices.updateMyPhoto
+  );
 
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync();
@@ -31,7 +29,10 @@ const UpdateProfileImageScreen = () => {
         aspect: [4, 3],
         quality: 1,
       });
-      if (!result.canceled) setImageUri(result.assets[0].uri);
+
+      if (!result.canceled) {
+        setImageUri(result.assets[0].uri);
+      }
     } catch (error) {
       console.log("Error reading an image: " + error);
     }
@@ -47,7 +48,8 @@ const UpdateProfileImageScreen = () => {
 
     const result = await updateImageApi(formData);
     if (result.ok) {
-      auth.storeNewUser(data);
+      storeNewUser(result.data.data);
+      return;
     }
   };
 
