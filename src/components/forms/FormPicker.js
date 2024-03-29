@@ -5,9 +5,10 @@ import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../configurations/colors";
+import FormErrorMessage from "./FormErrorMessage";
 
-const FormPicker = ({ name, items = [], iconType, ...others }) => {
-  const { setFieldValue, values } = useFormikContext();
+const FormPicker = ({ name, items = [], iconType }) => {
+  const { errors, touched, setFieldValue, values } = useFormikContext();
   return (
     <View style={styles.container}>
       <MaterialCommunityIcons
@@ -24,6 +25,7 @@ const FormPicker = ({ name, items = [], iconType, ...others }) => {
           <Picker.Item key={item.label} label={item.label} value={item.value} />
         ))}
       </Picker>
+      <FormErrorMessage error={errors[name]} visible={touched[name]} />
     </View>
   );
 };
