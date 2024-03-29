@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useFormikContext } from "formik";
@@ -20,9 +20,6 @@ const FormCheckBox = ({ label, name, value }) => {
     }
     setFieldValue(name, updatedData);
   };
-  useEffect(() => {
-    console.log(values);
-  }, []);
 
   return (
     <View style={styles.section}>
