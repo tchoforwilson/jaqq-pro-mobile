@@ -10,11 +10,10 @@ import FormField from "./FormField";
  * @returns
  */
 const FormPasswordField = ({ label, name }) => {
-  const [show, setShow] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
-    setShow(!show);
-    console.log(show);
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -22,8 +21,8 @@ const FormPasswordField = ({ label, name }) => {
       label={label}
       name={name}
       iconType="lock"
-      isPassword={!show}
-      togglePassword={show}
+      isPassword
+      togglePassword={togglePassword} // Pass the togglePassword function
       customShowPasswordComponent={
         <TextInput.Icon onPress={togglePassword} icon="eye-off" />
       }
@@ -34,7 +33,7 @@ const FormPasswordField = ({ label, name }) => {
       autoCorrect={false}
       clearButtonMode="always"
       textContentType="password"
-      secureTextEntry
+      secureTextEntry={!showPassword} // Invert the showPassword state
       showPasswordContainerStyles={styles.password}
     />
   );
