@@ -6,4 +6,4 @@ export const CONST_TWOU = 2;
 
 export const CONST_THREEU = 3;
 
-export const CONST_FOURU = 4;
+export const CONST_FOURU = Number(4);
