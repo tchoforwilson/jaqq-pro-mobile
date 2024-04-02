@@ -8,18 +8,6 @@ const api = create({
   headers: {
     Accept: "application/json",
   },
-  transformRequest: [
-    (data, headers) => {
-      if (data instanceof FormData) {
-        // If the data is an instance of FormData, set the appropriate headers
-        headers["Content-Type"] = "multipart/form-data";
-        return data;
-      }
-      // Otherwise, set the default headers for JSON data
-      headers["Content-Type"] = "application/json";
-      return JSON.stringify(data);
-    },
-  ],
 });
 
 // Function to set the authorization header with the token
