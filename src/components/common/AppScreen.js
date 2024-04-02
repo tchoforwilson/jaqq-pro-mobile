@@ -13,10 +13,10 @@ const AppScreen = ({ children, style }) => {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: colors.white,
-    paddingTop: Constants.statusBarHeight,
-    padding: 24,
     flex: 1,
+    backgroundColor: colors.white,
+    padding: 24,
+    paddingTop: Constants.statusBarHeight,
   },
   view: {
     flex: 1,
