@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { AuthContext, authStorage } from "../context";
-import socket from "../services/socket";
 
 export default useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -26,7 +25,7 @@ export default useAuth = () => {
   const logOut = () => {
     setUser(null);
     authStorage.removeToken();
-    socket.emit("disconnect");
+    authStorage.removeUser();
   };
 
   return { user, storeNewUser, logIn, logOut };
