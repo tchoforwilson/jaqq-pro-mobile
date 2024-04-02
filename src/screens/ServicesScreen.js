@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableHighlight,
+  Pressable,
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -45,7 +46,7 @@ ServiceItem.propTypes = {
   service: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    tasks: PropTypes.number.isRequired,
+    tasks: PropTypes.number,
   }).isRequired,
 };
 
@@ -79,18 +80,28 @@ const ServicesScreen = () => {
             keyExtractor={(service) => service.id || service.title}
             renderItem={({ item }) => <ServiceItem service={item} />}
           />
-          <Button
-            style={{ flex: 0, alignSelf: "center", padding: "4" }}
-            color={colors.grey_dark_1}
-            title={
-              services.length === CONST_ZEROU
-                ? "add service"
-                : "update services"
-            }
+          <Pressable
             onPress={toggleModal}
-          />
+            style={{
+              flex: 0,
+              alignSelf: "center",
+              paddingVertical: 5,
+              paddingHorizontal: 10,
+              borderRadius: 5,
+              backgroundColor: colors.grey_dark_1,
+            }}
+            color={colors.grey_dark_1}
+          >
+            <AppText
+              style={{ color: colors.white, textTransform: "capitalize" }}
+            >
+              {services.length === CONST_ZEROU
+                ? "add service"
+                : "update services"}
+            </AppText>
+          </Pressable>
         </View>
-        <UpdateServicesModal services={services} />
+        <UpdateServicesModal />
       </AppScreen>
     </Fragment>
   );
