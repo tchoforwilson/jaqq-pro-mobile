@@ -11,4 +11,6 @@ export default Object.freeze({
   UPDATE_PHONE: "UpdatePhoneNumber",
   UPDATE_PROFILE_IMAGE: "UpdateProfileImage",
   SERVICES: "Services",
+  REVIEWS: "Reviews",
+  REVIEW_DETAILS: "ReviewDetails",
 });
