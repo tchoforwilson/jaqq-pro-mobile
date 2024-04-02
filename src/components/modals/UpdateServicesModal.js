@@ -11,15 +11,17 @@ import userServices from "../../services/user.services";
 import { AppActivityIndicator } from "../indicators";
 import serviceServices from "../../services/service.services";
 import { AppText } from "../common";
+import { formikRef } from "../forms/rootFormik";
 
 const validationSchema = Yup.object().shape({
   services: Yup.array().of(Yup.string().required()),
 });
 
-const UpdateServicesModal = ({ services }) => {
-  const { toggleModal } = useModal();
+const UpdateServicesModal = () => {
   const auth = useAuth();
+  const { toggleModal } = useModal();
   const [appServices, setAppServices] = useState([]);
+  const [services, setServices] = useState([]);
 
   const appServicesApi = useApi(serviceServices.getAllServices);
   const updateServicesApi = useApi(userServices.toggleMyServices);
@@ -27,9 +29,8 @@ const UpdateServicesModal = ({ services }) => {
   const handleSubmit = async (values) => {
     const result = await updateServicesApi.request(values);
     if (result.ok) {
-      auth.storeNewUser(updateServicesApi.data);
+      auth.storeNewUser(result.data.data);
     }
-    console.log(values);
     toggleModal();
   };
 
@@ -40,15 +41,19 @@ const UpdateServicesModal = ({ services }) => {
     }
   };
 
+  const setUserServices = () => {
+    setServices(auth.user.services.map((service) => service._id));
+  };
+
   useEffect(() => {
     loadAppServices();
+    setUserServices();
   }, []);
 
   return (
     <Fragment>
-      <AppActivityIndicator
-        visible={appServicesApi.loading || updateServicesApi.loading}
-      />
+      <AppActivityIndicator visible={updateServicesApi.loading} />
+      <AppActivityIndicator visible={appServicesApi.loading} />
       <AppModal>
         <AppText style={styles.heading}>Choose services</AppText>
         <FormContainer
@@ -57,6 +62,7 @@ const UpdateServicesModal = ({ services }) => {
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
+          innerRef={formikRef}
         >
           <FlatList
             data={appServices}
