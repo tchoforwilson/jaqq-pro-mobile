@@ -12,6 +12,7 @@ import userServices from "../services/user.services";
 const UpdateProfileImageScreen = () => {
   const { user, storeNewUser } = useAuth();
   const [imageUri, setImageUri] = useState(user.photo || "");
+
   const { loading, request: updateImageApi } = useApi(
     userServices.updateMyPhoto
   );
@@ -44,7 +45,11 @@ const UpdateProfileImageScreen = () => {
       return;
     }
     const formData = new FormData();
-    formData.append("photo", imageUri);
+    formData.append("photo", {
+      uri: imageUri,
+      name: "profile-image",
+      type: "image/jpeg",
+    });
 
     const result = await updateImageApi(formData);
     if (result.ok) {
