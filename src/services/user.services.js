@@ -27,7 +27,9 @@ const updatePushToken = (pushToken) => {
 };
 
 const updateMyPhoto = (data) => {
-  return api.patch(endpoint + "update-my-photo", data);
+  return api.patch(endpoint + "update-my-photo", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 const getMyServices = () => {
