@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { AppScreen } from "../components/common";
+import { AppScreen, KeyBoardAvoidingViewContainer } from "../components/common";
 import {
   FormContainer,
   FormDateTimePicker,
@@ -44,7 +44,7 @@ const ProfileScreen = ({ navigation }) => {
     <Fragment>
       <AppActivityIndicator visible={loading} />
       <AppScreen style={styles.screen}>
-        <ScrollView style={styles.scrollView}>
+        <KeyBoardAvoidingViewContainer style={styles.scrollView}>
           <View style={[styles.container, styles.imageContainer]}>
             <Image style={styles.image} source={{ uri: user.photo }} />
             <MaterialCommunityIcons
@@ -113,7 +113,7 @@ const ProfileScreen = ({ navigation }) => {
               <SubmitButton title="Update Account" />
             </FormContainer>
           </View>
-        </ScrollView>
+        </KeyBoardAvoidingViewContainer>
       </AppScreen>
     </Fragment>
   );
