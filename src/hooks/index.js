@@ -4,4 +4,4 @@ export { default as useAuth } from "./useAuth";
 export { default as useModal } from "./useModal";
 export { default as useNotifications } from "./useNotifications";
 export { default as useDate } from "./useDate";
-export { default as useConnection } from "./useConnection";
+export { default as useSocket } from "./useSocket";
