@@ -4,14 +4,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
-import { useConnection, useLocation, useNotifications } from "../hooks";
+import { useSocket, useLocation, useNotifications } from "../hooks";
+import ReviewNavigator from "./ReviewNavigator";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  useConnection();
   useLocation();
   useNotifications();
+  useSocket();
+
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
@@ -20,6 +22,15 @@ const AppNavigator = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Review"
+        component={ReviewNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="star" color={color} size={size} />
           ),
         }}
       />
