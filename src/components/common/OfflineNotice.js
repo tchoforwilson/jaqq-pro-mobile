@@ -7,6 +7,7 @@ import colors from "../../configurations/colors";
 
 const OfflineNotice = () => {
   const netInfo = useNetInfo();
+
   if (netInfo.type !== "unknown" && netInfo.isInternetReachable === false)
     return (
       <View style={styles.container}>
