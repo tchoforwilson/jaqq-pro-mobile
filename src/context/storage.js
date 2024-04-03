@@ -38,6 +38,14 @@ const getUser = async () => {
   }
 };
 
+const removeUser = async () => {
+  try {
+    await AsyncStorage.removeItem(userKey);
+  } catch (error) {
+    console.log("Error removing the user", error);
+  }
+};
+
 const removeToken = async () => {
   try {
     await SecureStore.deleteItemAsync(key);
@@ -75,6 +83,7 @@ export default {
   getToken,
   getUser,
   storeUser,
+  removeUser,
   storeToken,
   removeToken,
   storeSocketId,
