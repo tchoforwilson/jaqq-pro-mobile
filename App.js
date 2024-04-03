@@ -7,7 +7,6 @@ import {
   AuthNavigator,
   NavigationTheme,
   RegisterNavigator,
-  ScreenNavigator,
 } from "./src/navigations";
 import OfflineNotice from "./src/components/common/OfflineNotice";
 import {
@@ -18,6 +17,8 @@ import {
 } from "./src/context";
 import { navigationRef } from "./src/navigations/rootNavigation";
 import { AlertError } from "./src/components/alerts";
+import { useAuth } from "./src/hooks";
+import storage from "./src/context/storage";
 
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
