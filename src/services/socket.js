@@ -8,6 +8,7 @@ const socket = io("http://192.168.1.153:9000", {
   auth: {
     token: handshakeToken,
   },
+  autoConnect: true,
 });
 
 export default socket;
