@@ -8,7 +8,14 @@ export default createQuery = (query) => {
 
   // Build query string
   Object.entries(query).forEach(([key, value]) => {
-    if (value && value !== "-1") {
+    if (
+      value &&
+      value !== "-1" &&
+      value !== "none" &&
+      value !== null &&
+      value !== "" &&
+      value !== "1"
+    ) {
       searchQuery.push(`${key}=${value}`);
     }
   });
