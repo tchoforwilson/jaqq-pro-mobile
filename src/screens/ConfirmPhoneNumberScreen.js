@@ -30,7 +30,7 @@ const ConfirmPhoneNumberScreen = ({ route }) => {
   const handleSubmit = async (values) => {
     const result = await verifyApi.request(values);
     if (result.ok) {
-      return auth.storeNewUser(verifyApi.data);
+      return auth.storeNewUser(result.data.data);
     }
   };
 
