@@ -22,13 +22,13 @@ const tasks = [
   { label: "Cancelled tasks", value: "Cancelled" },
 ];
 
-const FilterTaskModal = ({ onSubmit }) => {
+const FilterTaskModal = ({ onSubmit, currentStatus }) => {
   return (
     <AppModal>
       <View style={styles.container}>
         <AppText style={styles.heading}>Filter tasks</AppText>
         <FormContainer
-          initialValues={{ status: "none" }}
+          initialValues={{ status: currentStatus }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
           innerRef={formikRef}
