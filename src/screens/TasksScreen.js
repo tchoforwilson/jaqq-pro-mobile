@@ -22,8 +22,20 @@ const TaskItem = ({ task, onPress }) => {
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.taskitem}>
         <View style={styles.detialsContainer}>
-          <AppText style={styles.name}>{task.name}</AppText>
-          <AppText style={styles.price}>{task.price + " XAF"}</AppText>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <AppText style={styles.name}>{task.service.title}</AppText>
+            <AppText style={styles.status}>{task.status}</AppText>
+          </View>
+          <AppText style={styles.price}>
+            {task.pricing.minPrice + " XAF"}
+          </AppText>
         </View>
         <View style={styles.locationContainer}>
           <MaterialCommunityIcons
@@ -32,7 +44,7 @@ const TaskItem = ({ task, onPress }) => {
             color={colors.primary}
             style={styles.icon}
           />
-          <AppText style={styles.location}>{task.location}</AppText>
+          <AppText style={styles.location}>{task.location.name}</AppText>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -42,15 +54,15 @@ const TaskItem = ({ task, onPress }) => {
 TaskItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    location: PropTypes.string.isRequired,
+    service: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }),
   }),
   onPress: PropTypes.func.isRequired,
 };
 
 const TasksScreen = ({ navigation }) => {
-  const [taskStatus, setTaskStatus] = useState("");
+  const [taskStatus, setTaskStatus] = useState("none");
   const { toggleModal } = useModal();
   const {
     data: tasks,
@@ -61,9 +73,10 @@ const TasksScreen = ({ navigation }) => {
 
   const handleSubmit = (values) => {
     const { status } = values;
-    if (status === "" || status === "none") return;
+
     setTaskStatus(status);
     loadTasks({ status: taskStatus });
+
     toggleModal();
   };
 
@@ -101,7 +114,7 @@ const TasksScreen = ({ navigation }) => {
           )}
         />
 
-        <FilterTaskModal onSubmit={handleSubmit} />
+        <FilterTaskModal onSubmit={handleSubmit} currentStatus={taskStatus} />
       </AppScreen>
     </Fragment>
   );
@@ -137,6 +150,15 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: 500,
     color: colors.secondary,
+  },
+  status: {
+    paddingHorizontal: 8,
+    paddingVertical: 2.5,
+    borderRadius: 5,
+    fontSize: 16,
+    backgroundColor: colors.secondary,
+    color: colors.white,
+    fontWeight: 800,
   },
   locationContainer: {
     display: "flex",
