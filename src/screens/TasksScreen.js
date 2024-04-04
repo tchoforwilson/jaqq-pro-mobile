@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2.5,
     borderRadius: 5,
     fontSize: 16,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.secondarERTYUWy,
     color: colors.white,
     fontWeight: 800,
   },
