@@ -21,8 +21,12 @@ const FormPicker = ({ name, items = [], iconType }) => {
         onValueChange={(value) => setFieldValue(name, value)}
         style={styles.picker}
       >
-        {items.map((item) => (
-          <Picker.Item key={item.label} label={item.label} value={item.value} />
+        {items.map((item, index) => (
+          <Picker.Item
+            key={item.label + index}
+            label={item.label}
+            value={item.value}
+          />
         ))}
       </Picker>
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
