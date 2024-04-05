@@ -1,12 +1,16 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
 import rootNavigation from "../navigations/rootNavigation";
 import userServices from "../services/user.services";
+import { NotificationContext } from "../context";
 
 const useNotifications = (notificationListener) => {
+  const { notification: appNotification, setAppNotification } =
+    useContext(NotificationContext);
+
   useEffect(() => {
     registerForPushNotifications();
 
@@ -38,6 +42,19 @@ const useNotifications = (notificationListener) => {
         console.log("Error getting a push token " + error);
       }
     }
+  };
+
+  const showLocalNotification = () => {
+    Notifications.scheduleNotificationAsync({
+      title: appNotification.title,
+      body: appNotification.body,
+    });
+  };
+
+  return {
+    showLocalNotification,
+    setAppNotification,
+    appNotification,
   };
 };
 
