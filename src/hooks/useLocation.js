@@ -1,30 +1,29 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import userServices from "../services/user.services";
 import socket from "../services/socket";
-import { ErrorContext } from "../context";
+import useAlert from "./useAlert";
 
 const useLocation = () => {
   const [location, setLocation] = useState();
   const [currentLocation, setCurrentLocation] = useState();
-  const { setMessage, setVisible, setStatus } = useContext(ErrorContext);
 
   const updateLocation = async (coords) => {
     setLocation({
-      coordinates: [coords.latitude, coords.longitude],
+      coordinates: [coords.longitude, coords.latitude],
     });
 
     userServices.updateUserLocation({
-      coordinates: [coords.latitude, coords.longitude],
+      coordinates: [coords.longitude, coords.latitude],
     });
   };
 
   const updateCurrentLocation = async (coords) => {
     setCurrentLocation({
-      coordinates: [coords.latitude, coords.longitude],
+      coordinates: [coords.longitude, coords.latitude],
     });
     socket.emit("currentLocation", {
-      coordinates: [coords.latitude, coords.longitude],
+      coordinates: [coords.longitude, coords.latitude],
     });
   };
 
@@ -33,9 +32,7 @@ const useLocation = () => {
       // 1. Grant user location permission
       const { granted } = await Location.requestForegroundPermissionsAsync();
       if (!granted) {
-        setMessage("App needs permission to access your location");
-        setStatus("Failed");
-        setVisible(true);
+        useAlert("fail", "App needs permission to access your location", true);
         return;
       }
       // 2. Get user location
