@@ -13,7 +13,7 @@ import { SubmitButton } from "../components/buttons";
 import colors from "../configurations/colors";
 import routes from "../routes";
 import { AppActivityIndicator } from "../components/indicators";
-import { useApi, useAuth } from "../hooks";
+import { useAlert, useApi, useAuth } from "../hooks";
 import userServices from "../services/user.services";
 
 const validationSchema = Yup.object().shape({
@@ -29,6 +29,7 @@ const validationSchema = Yup.object().shape({
 
 const ProfileScreen = ({ navigation }) => {
   const { user, storeNewUser } = useAuth();
+  const { setAlert } = useAlert();
   const { loading, request: profileApi } = useApi(userServices.updateMe);
 
   const handleSubmit = async (values) => {
@@ -36,6 +37,9 @@ const ProfileScreen = ({ navigation }) => {
 
     if (result.ok) {
       storeNewUser(result.data.data);
+      console.log(result.data);
+      const { status, message } = result.data;
+      setAlert({ status, message, visible: true });
       return;
     }
   };
@@ -100,8 +104,8 @@ const ProfileScreen = ({ navigation }) => {
                 name="gender"
                 items={[
                   { label: "Gender", value: "-1" },
-                  { label: "Male", value: "male" },
-                  { label: "Female", value: "female" },
+                  { label: "Male", value: "Male" },
+                  { label: "Female", value: "Female" },
                 ]}
                 iconType="gender-male-female"
               />
