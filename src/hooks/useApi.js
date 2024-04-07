@@ -1,11 +1,10 @@
-import { useContext, useState, useCallback } from "react";
-import { ErrorContext } from "../context";
+import { useState, useCallback } from "react";
 import useAuth from "./useAuth";
+import useAlert from "./useAlert";
 
 const useApi = (apiFunc) => {
   const auth = useAuth();
-  const { setMessage, setVisible, status, setStatus } =
-    useContext(ErrorContext);
+  const { setAlert } = useAlert();
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,10 +29,11 @@ const useApi = (apiFunc) => {
               // TODO: Implement refresh token
               return auth.logOut();
             }
-
-            setMessage(response.data.message);
-            setStatus(response.data.status);
-            setVisible(true);
+            setAlert({
+              status: response.data.status,
+              message: response.data.message,
+              visible: true,
+            });
           }
         } else {
           setData(response.data.data);
@@ -47,10 +47,10 @@ const useApi = (apiFunc) => {
         setLoading(false);
       }
     },
-    [auth, setMessage, setStatus, setVisible]
+    [auth]
   );
 
-  return { data, error, status, loading, request };
+  return { data, error, loading, request };
 };
 
 export default useApi;
