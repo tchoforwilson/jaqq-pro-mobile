@@ -1,1 +1,1 @@
-export { default as AlertError } from "./AlertError";
+export { default as AppAlert } from "./AppAlert";
