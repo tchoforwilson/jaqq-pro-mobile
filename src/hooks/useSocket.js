@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import socket from "../services/socket";
 import useAuth from "./useAuth";
 import storage from "../context/storage";
@@ -7,21 +7,19 @@ const useSocket = () => {
   const [socketId, setSocketId] = useState(null);
   const auth = useAuth();
 
-  const connect = useCallback(() => {
+  const connect = () => {
+    socket.emit("connection");
     socket.connect();
-    console.log(socket.connected);
     console.log(socket.id);
-  }, []);
+  };
 
-  const handleConnect = (user) => {
+  socket.on("connected", (socket) => {
     console.log("Connected to server");
     console.log("Socket ID:", socket.id);
     storage.storeSocketId(socket.id);
     auth.storeNewUser(user);
     setSocketId(socket.id);
-  };
-
-  socket.on("connected", handleConnect);
+  });
 
   useEffect(() => {
     connect();
