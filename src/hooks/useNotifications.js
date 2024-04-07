@@ -8,7 +8,7 @@ import userServices from "../services/user.services";
 import { NotificationContext } from "../context";
 
 const useNotifications = (notificationListener) => {
-  const { notification: appNotification, setAppNotification } =
+  const { appNotification, setAppNotification } =
     useContext(NotificationContext);
 
   useEffect(() => {
@@ -44,15 +44,26 @@ const useNotifications = (notificationListener) => {
     }
   };
 
-  const showLocalNotification = () => {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+
+  const generateLocalNotification = () => {
     Notifications.scheduleNotificationAsync({
-      title: appNotification.title,
-      body: appNotification.body,
+      content: {
+        title: appNotification.title,
+        body: appNotification.body,
+      },
+      trigger: null,
     });
   };
 
   return {
-    showLocalNotification,
+    generateLocalNotification,
     setAppNotification,
     appNotification,
   };
