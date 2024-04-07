@@ -6,10 +6,11 @@ import { AppScreen } from "../components/common";
 import colors from "../configurations/colors";
 import { AppButton } from "../components/buttons";
 import { AppActivityIndicator } from "../components/indicators";
-import { useApi, useAuth } from "../hooks";
+import { useApi, useAuth, useAlert } from "../hooks";
 import userServices from "../services/user.services";
 
 const UpdateProfileImageScreen = () => {
+  const { setAlert } = useAlert();
   const { user, storeNewUser } = useAuth();
   const [imageUri, setImageUri] = useState(user.photo || "");
 
@@ -54,6 +55,8 @@ const UpdateProfileImageScreen = () => {
     const result = await updateImageApi(formData);
     if (result.ok) {
       storeNewUser(result.data.data);
+      const { status, message } = result.data;
+      setAlert({ status, message, visible: true });
       return;
     }
   };
