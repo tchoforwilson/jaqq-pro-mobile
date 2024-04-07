@@ -11,20 +11,27 @@ import {
 import OfflineNotice from "./src/components/common/OfflineNotice";
 import {
   AuthContext,
-  ErrorContext,
+  AlertContext,
+  NotificationContext,
   ModalContext,
   authStorage,
 } from "./src/context";
 import { navigationRef } from "./src/navigations/rootNavigation";
-import { AlertError } from "./src/components/alerts";
-import { useAuth } from "./src/hooks";
-import storage from "./src/context/storage";
+import { AppAlert } from "./src/components/alerts";
 
 const App = () => {
+  const [appNotification, setAppNotification] = useState({
+    title: "",
+    body: "",
+    type: "",
+    visible: false,
+  });
   const [modalVisible, setModalVisible] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [status, setStatus] = useState("");
-  const [message, setMessage] = useState("");
+  const [alert, setAlert] = useState({
+    visible: false,
+    status: "",
+    message: "",
+  });
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -68,26 +75,29 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <ErrorContext.Provider
-        value={{ visible, status, setStatus, message, setMessage, setVisible }}
-      >
-        <ModalContext.Provider value={{ modalVisible, toggleModal }}>
-          <OfflineNotice />
-          <AlertError
-            visible={visible}
-            status={status}
-            message={message}
-            onClose={() => setVisible(!visible)}
-          />
-          <NavigationContainer
-            ref={navigationRef}
-            theme={NavigationTheme}
-            onReady={onLayoutRootView}
-          >
-            {renderNavigator()}
-          </NavigationContainer>
-        </ModalContext.Provider>
-      </ErrorContext.Provider>
+      <AlertContext.Provider value={{ alert, setAlert }}>
+        <NotificationContext.Provider
+          value={{
+            appNotification,
+            setAppNotification,
+          }}
+        >
+          <ModalContext.Provider value={{ modalVisible, toggleModal }}>
+            <OfflineNotice />
+            <AppAlert
+              alert={alert}
+              onClose={() => setAlert({ visible: !alert.visible })}
+            />
+            <NavigationContainer
+              ref={navigationRef}
+              theme={NavigationTheme}
+              onReady={onLayoutRootView}
+            >
+              {renderNavigator()}
+            </NavigationContainer>
+          </ModalContext.Provider>
+        </NotificationContext.Provider>
+      </AlertContext.Provider>
     </AuthContext.Provider>
   );
 };
