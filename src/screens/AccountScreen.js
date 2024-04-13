@@ -10,7 +10,7 @@ import Icon from "../components/Icon";
 
 const menuItems = [
   {
-    title: "My Services",
+    title: "Services",
     icon: {
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
@@ -18,7 +18,15 @@ const menuItems = [
     targetScreen: routes.SERVICES,
   },
   {
-    title: "Change Phone Number",
+    title: "Reviews",
+    icon: {
+      name: "star",
+      backgroundColor: colors.yellow,
+    },
+    targetScreen: routes.REVIEWS,
+  },
+  {
+    title: "Change number",
     icon: {
       name: "phone",
       backgroundColor: colors.secondary,
@@ -26,7 +34,7 @@ const menuItems = [
     targetScreen: routes.UPDATE_PHONE,
   },
   {
-    title: "Change Password",
+    title: "Change password",
     icon: {
       name: "lock",
       backgroundColor: colors.grey_dark_1,
@@ -68,8 +76,8 @@ const AccountScreen = ({ navigation }) => {
           />
         </View>
         <ListItem
-          title="LogOut"
-          IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+          title="Log out"
+          IconComponent={<Icon name="logout" backgroundColor={colors.red} />}
           onPress={() => logOut()}
         />
       </AppScreen>
