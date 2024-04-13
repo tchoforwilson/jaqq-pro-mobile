@@ -30,21 +30,33 @@ const TaskItem = ({ task, onPress }) => {
               alignItems: "center",
             }}
           >
-            <AppText style={styles.name}>{task.service.title}</AppText>
+            <AppText style={styles.title}>{task.service.title}</AppText>
             <AppText style={styles.status}>{task.status}</AppText>
           </View>
           <AppText style={styles.price}>
             {task.pricing.minPrice + " XAF"}
           </AppText>
         </View>
-        <View style={styles.locationContainer}>
-          <MaterialCommunityIcons
-            name="map-marker"
-            size={25}
-            color={colors.primary}
-            style={styles.icon}
-          />
-          <AppText style={styles.location}>{task.location.name}</AppText>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.locationContainer}>
+            <MaterialCommunityIcons
+              name="map-marker"
+              size={25}
+              color={colors.primary}
+              style={styles.icon}
+            />
+            <AppText style={styles.location}>{task.location.name}</AppText>
+          </View>
+          <AppText style={styles.date}>
+            {new Date(task.updatedAt).toLocaleDateString()}
+          </AppText>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -141,22 +153,23 @@ const styles = StyleSheet.create({
   detialsContainer: {
     marginBottom: 15,
   },
-  name: {
+  title: {
     fontWeight: 800,
     fontSize: 18,
     marginBottom: 5,
     color: colors.primary,
   },
   price: {
-    fontWeight: 500,
+    fontWeight: 400,
+    fontSize: 16,
     color: colors.secondary,
   },
   status: {
     paddingHorizontal: 8,
     paddingVertical: 2.5,
     borderRadius: 5,
-    fontSize: 16,
-    backgroundColor: colors.secondarERTYUWy,
+    fontSize: 12,
+    backgroundColor: colors.primary,
     color: colors.white,
     fontWeight: 800,
   },
@@ -169,6 +182,12 @@ const styles = StyleSheet.create({
   },
   location: {
     color: colors.grey_dark_2,
+    fontSize: 14,
+    fontWeight: 500,
+  },
+  date: {
+    fontSize: 12,
+    fontWeight: 500,
   },
 });
 
