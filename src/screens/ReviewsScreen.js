@@ -5,7 +5,6 @@ import {
   Image,
   FlatList,
   TouchableWithoutFeedback,
-  ScrollView,
 } from "react-native";
 import { AppScreen, AppText } from "../components/common";
 import { useDate } from "../hooks";
@@ -29,7 +28,7 @@ const Review = ({ review, onPress }) => {
             />
             <View>
               <AppText style={styles.name}>
-                {review.provider.firstname + "" + review.provider.lastname}
+                {review.provider.firstname + " " + review.provider.lastname}
               </AppText>
               <AppText style={styles.day}>
                 {getElapsedTime(review.provider.createdAt)}
@@ -137,6 +136,7 @@ const ReviewsScreen = ({ navigation }) => {
       <AppScreen style={styles.screen}>
         <View style={styles.container}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={reviews}
             keyExtractor={(review) => review._id}
             renderItem={({ item }) => (
