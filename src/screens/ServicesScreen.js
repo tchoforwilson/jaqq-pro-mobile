@@ -79,21 +79,8 @@ const ServicesScreen = () => {
             keyExtractor={(service) => service.id || service.title}
             renderItem={({ item }) => <ServiceItem service={item} />}
           />
-          <Pressable
-            onPress={toggleModal}
-            style={{
-              flex: 0,
-              alignSelf: "center",
-              paddingVertical: 5,
-              paddingHorizontal: 10,
-              borderRadius: 5,
-              backgroundColor: colors.grey_dark_1,
-            }}
-            color={colors.grey_dark_1}
-          >
-            <AppText
-              style={{ color: colors.white, textTransform: "capitalize" }}
-            >
+          <Pressable onPress={toggleModal} style={styles.button}>
+            <AppText style={styles.buttonText}>
               {services.length === CONST_ZEROU
                 ? "add service"
                 : "update services"}
@@ -107,6 +94,18 @@ const ServicesScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  button: {
+    flex: 0,
+    alignSelf: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+  },
+  buttonText: {
+    color: colors.white,
+    textTransform: "capitalize",
+  },
   serviceItem: {
     alignItems: "center",
     flexDirection: "row",
