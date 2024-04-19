@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const renderNavigator = () => {
-    if (user && user.phoneValidated) {
+    if (user?.phoneValidated) {
       return <AppNavigator />;
     } else if (user && !user.phoneValidated) {
       return <RegisterNavigator />;
