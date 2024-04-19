@@ -1,11 +1,12 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
 import colors from "../../configurations/colors";
 
 const AppScreen = ({ children, style }) => {
   return (
     <SafeAreaView style={[styles.screen, style]}>
+      <StatusBar backgroundColor={colors.primary} />
       <View style={[styles.view, style]}>{children}</View>
     </SafeAreaView>
   );
