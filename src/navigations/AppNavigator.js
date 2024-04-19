@@ -28,6 +28,7 @@ const AppNavigator = () => {
         name="My Account"
         component={AccountNavigator}
         options={{
+          title: "Account",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
