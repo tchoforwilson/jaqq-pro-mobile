@@ -5,6 +5,7 @@ import socket from "../services/socket";
 import useAlert from "./useAlert";
 
 const useLocation = () => {
+  const { setALert } = useAlert();
   const [location, setLocation] = useState();
   const [currentLocation, setCurrentLocation] = useState();
 
@@ -32,7 +33,11 @@ const useLocation = () => {
       // 1. Grant user location permission
       const { granted } = await Location.requestForegroundPermissionsAsync();
       if (!granted) {
-        useAlert("fail", "App needs permission to access your location", true);
+        setALert({
+          status: "fail",
+          message: "App needs permission to access your location",
+          visible: true,
+        });
         return;
       }
       // 2. Get user location
