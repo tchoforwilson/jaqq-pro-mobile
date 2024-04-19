@@ -1,12 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 import { AppScreen, AppText } from "../components/common";
 import colors from "../configurations/colors";
+import socket from "../services/socket";
+
+const items = [
+  {
+    value: "1",
+    label: "Selected status",
+  },
+  {
+    value: "Accepted",
+    label: "Accepted",
+  },
+  {
+    value: "In progress",
+    label: "In progress",
+  },
+  {
+    value: "Ready",
+    label: "Ready",
+  },
+  {
+    value: "Rejected",
+    label: "Rejected",
+  },
+];
 
 const TaskDetailsScreen = ({ route }) => {
-  const task = route.params;
+  const [task, setTask] = useState(route.params);
+  const [status, setStatus] = useState(task.status);
+
+  const handleChange = (value) => {
+    setStatus(value);
+    socket.emit("task:status", {
+      taskId: task.id,
+      status: value,
+    });
+    socket.on("task:updated", (data) => {
+      console.log(data);
+      setTask(data);
+    });
+  };
 
   return (
     <AppScreen style={styles.screen}>
@@ -36,11 +75,30 @@ const TaskDetailsScreen = ({ route }) => {
           </View>
         </View>
         <View style={styles.statusContainer}>
-          <AppText style={styles.status}>{task.status}</AppText>
+          <AppText style={styles.status}>{status}</AppText>
+          <Picker
+            selectedValue={status}
+            onValueChange={(value) => handleChange(value)}
+            style={styles.picker}
+          >
+            {items.map((item) => {
+              return (
+                <Picker.Item
+                  key={item.label}
+                  label={item.label}
+                  value={item.value}
+                />
+              );
+            })}
+          </Picker>
         </View>
       </View>
     </AppScreen>
   );
+};
+
+TaskDetailsScreen.propTypes = {
+  route: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({
