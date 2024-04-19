@@ -66,6 +66,14 @@ const TaskItem = ({ task, onPress }) => {
 TaskItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    pricing: PropTypes.shape({
+      minPrice: PropTypes.number.isRequired,
+    }).isRequired,
+    location: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+    updatedAt: PropTypes.string.isRequired,
     service: PropTypes.shape({
       title: PropTypes.string.isRequired,
     }),
@@ -74,8 +82,8 @@ TaskItem.propTypes = {
 };
 
 const TasksScreen = ({ navigation }) => {
-  const [taskStatus, setTaskStatus] = useState("none");
   const { toggleModal } = useModal();
+  const [taskStatus, setTaskStatus] = useState("none");
   const {
     data: tasks,
     error,
@@ -92,22 +100,29 @@ const TasksScreen = ({ navigation }) => {
     toggleModal();
   };
 
+  const renderRightHeaderIcon = () => (
+    <MaterialCommunityIcons
+      name="filter-variant"
+      size={25}
+      color={colors.white}
+      onPress={toggleModal}
+    />
+  );
+
   useEffect(() => {
+    // Set Right header button
+    navigation.setOptions({
+      headerRight: () => renderRightHeaderIcon(),
+    });
+
+    // Load Tasks
     loadTasks({ status: taskStatus });
-  }, [taskStatus]);
+  }, [navigation, taskStatus]);
 
   return (
     <Fragment>
       <AppActivityIndicator visible={loading} />
       <AppScreen style={styles.screen}>
-        <View style={styles.header}>
-          <MaterialCommunityIcons
-            name="sort"
-            size={28}
-            color={colors.grey_dark_1}
-            onPress={toggleModal}
-          />
-        </View>
         {error && (
           <Fragment>
             <AppText>Couldn't retrieve the tasks.</AppText>
@@ -132,16 +147,16 @@ const TasksScreen = ({ navigation }) => {
   );
 };
 
+TasksScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    setOptions: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.light,
-  },
-  header: {
-    justifySelf: "flex-end",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    marginBottom: 10,
   },
   taskitem: {
     backgroundColor: colors.white,
