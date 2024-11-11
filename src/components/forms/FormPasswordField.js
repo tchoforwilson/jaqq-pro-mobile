@@ -14,6 +14,7 @@ const FormPasswordField = ({ label, name }) => {
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
+    console.log(showPassword);
   };
 
   return (
